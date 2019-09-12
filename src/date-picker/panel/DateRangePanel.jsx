@@ -13,8 +13,6 @@ import { DateTable } from '../basic'
 import { PopperBase } from './PopperBase'
 import { PLACEMENT_MAP } from '../constants'
 
-import './test.scss';
-
 
 const prevYear = (date) => {
   var d = toDate(date)
