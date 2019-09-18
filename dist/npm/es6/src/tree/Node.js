@@ -212,7 +212,15 @@ var Node = function (_Component) {
   };
 
   Node.prototype.handleCheckChange = function handleCheckChange(checked) {
-    this.props.nodeModel.setChecked(checked, true);
+    var state = this.props.treeNode.state;
+
+    if (state.isMax) {
+      if (!checked) {
+        this.props.nodeModel.setChecked(checked, true);
+      }
+    } else {
+      this.props.nodeModel.setChecked(checked, true);
+    }
   };
 
   Node.prototype.render = function render() {
@@ -223,7 +231,8 @@ var Node = function (_Component) {
         treeNode = _props5.treeNode,
         nodeModel = _props5.nodeModel,
         renderContent = _props5.renderContent,
-        isShowCheckbox = _props5.isShowCheckbox;
+        isShowCheckbox = _props5.isShowCheckbox,
+        maxChoose = _props5.maxChoose;
 
 
     var expanded = nodeModel.expanded;
@@ -235,7 +244,8 @@ var Node = function (_Component) {
         className: this.classNames('el-tree-node', {
           expanded: childNodeRendered && expanded,
           'is-current': treeNode.getCurrentNode() === this,
-          'is-hidden': !nodeModel.visible
+          'is-hidden': !nodeModel.visible,
+          'is-checked': nodeModel.checked
         }),
         style: { display: nodeModel.visible ? '' : 'none' }
       },
@@ -252,12 +262,12 @@ var Node = function (_Component) {
           }),
           onClick: this.handleExpandIconClick.bind(this)
         }),
-        isShowCheckbox && React.createElement(Checkbox, {
+        isShowCheckbox && (maxChoose == 0 || nodeModel.isLeaf) ? React.createElement(Checkbox, {
           checked: nodeModel.checked,
           onChange: this.handleCheckChange.bind(this),
           indeterminate: nodeModel.indeterminate,
           onClick: this.handleUserClick.bind(this)
-        }),
+        }) : null,
         nodeModel.loading && React.createElement(
           'span',
           { className: 'el-tree-node__loading-icon el-icon-loading' },
