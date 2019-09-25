@@ -562,7 +562,7 @@ var DateRangePanel = function (_PopperBase) {
       isShowTime && React.createElement(
         'div',
         { className: 'el-picker-panel__footer' },
-        React.createElement(
+        this.props.isReadOnly ? null : React.createElement(
           'a',
           {
             className: 'el-picker-panel__link-btn',

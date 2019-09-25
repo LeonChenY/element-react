@@ -514,9 +514,12 @@ export default class DateRangePanel extends PopperBase {
         {
           isShowTime && (
             <div className="el-picker-panel__footer">
-              <a
-                className="el-picker-panel__link-btn"
-                onClick={() => this.handleClear()}>{Locale.t('el.datepicker.clear')}</a>
+              {
+                this.props.isReadOnly ? null :
+                  <a
+                    className="el-picker-panel__link-btn"
+                    onClick={() => this.handleClear()}>{Locale.t('el.datepicker.clear')}</a>
+              }
               <button
                 type="button"
                 className="el-picker-panel__btn"

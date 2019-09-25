@@ -114,6 +114,7 @@ render() {
           placeholder="选择日期范围"
           align="right"
           ref={e=>this.daterangepicker2 = e}
+          isReadOnly={true}
           onChange={date=>{
             console.debug('DateRangePicker2 changed: ', date)
             this.setState({value2: date})
