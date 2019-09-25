@@ -30,7 +30,7 @@ const valueEquals = function (a: any, b: any) {
   const aIsArray = Array.isArray(a)
   const bIsArray = Array.isArray(b)
 
-  let isEqual = (a, b)=>{ // equal if a, b date is equal or both is null or undefined
+  let isEqual = (a, b) => { // equal if a, b date is equal or both is null or undefined
     let equal = false
     if (a && b) equal = a.getTime() === b.getTime()
     else equal = a === b && a == null
@@ -206,6 +206,9 @@ export default class BasePicker extends Component {
     if (keyCode === 9 || keyCode === 27) {
       this.setState({ pickerVisible: false })
       evt.stopPropagation()
+    } else {
+      // 禁止用户手动输入
+      evt.preventDefault();
     }
   }
 
@@ -295,7 +298,7 @@ export default class BasePicker extends Component {
     const createPickerPanel = () => {
       if (pickerVisible) {
         /* eslint-disable */
-        let {placeholder, onFocus, onBlur, onChange, ...others} = this.props
+        let { placeholder, onFocus, onBlur, onChange, ...others } = this.props
         /* eslint-enable */
         return (
           <MountBody ref={e => this.pickerProxy = e}>

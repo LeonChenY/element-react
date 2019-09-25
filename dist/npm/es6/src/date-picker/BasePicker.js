@@ -217,6 +217,9 @@ var BasePicker = function (_Component) {
     if (keyCode === 9 || keyCode === 27) {
       this.setState({ pickerVisible: false });
       evt.stopPropagation();
+    } else {
+      // 禁止用户手动输入
+      evt.preventDefault();
     }
   };
 
