@@ -342,7 +342,7 @@ export default class BasePicker extends Component {
 
         <Input
           className={this.classNames(`el-date-editor el-date-editor--${this.type}`)}
-          readOnly={true}
+          readOnly={isReadOnly}
           disabled={isDisabled}
           type="text"
           placeholder={placeholder}

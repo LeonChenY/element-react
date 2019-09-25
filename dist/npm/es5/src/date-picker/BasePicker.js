@@ -437,7 +437,7 @@ var BasePicker = function (_Component) {
           func: this.handleClickOutside.bind(this) }),
         _react2.default.createElement(_input2.default, {
           className: this.classNames('el-date-editor el-date-editor--' + this.type),
-          readOnly: true,
+          readOnly: isReadOnly,
           disabled: isDisabled,
           type: 'text',
           placeholder: placeholder,
