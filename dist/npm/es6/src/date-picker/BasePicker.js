@@ -109,7 +109,8 @@ var BasePicker = function (_Component) {
   };
 
   BasePicker.prototype.getFormatSeparator = function getFormatSeparator() {
-    return undefined;
+    // return undefined
+    return this.props.rangeSeparator;
   };
   // ---: end, abstract methods
 

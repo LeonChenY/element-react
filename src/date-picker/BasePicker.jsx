@@ -99,7 +99,8 @@ export default class BasePicker extends Component {
   }
 
   getFormatSeparator() {
-    return undefined
+    // return undefined
+    return this.props.rangeSeparator
   }
   // ---: end, abstract methods
 
