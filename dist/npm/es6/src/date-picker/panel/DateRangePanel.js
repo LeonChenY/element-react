@@ -239,7 +239,7 @@ var DateRangePanel = function (_PopperBase) {
   };
 
   DateRangePanel.prototype.handleTimeChange = function handleTimeChange(value, type) {
-    var parsedValue = parseDate(value, 'HH:mm:ss');
+    var parsedValue = parseDate(value, this.props.timeFormate || 'HH:mm:ss');
     if (parsedValue) {
       var _setState;
 
@@ -643,4 +643,6 @@ var DateRangePanel = function (_PopperBase) {
 export default DateRangePanel;
 
 
-DateRangePanel.defaultProps = {};
+DateRangePanel.defaultProps = {
+  timeFormate: ''
+};

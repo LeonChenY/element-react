@@ -254,7 +254,7 @@ export default class DateRangePanel extends PopperBase {
   }
 
   handleTimeChange(value, type) {
-    const parsedValue = parseDate(value, 'HH:mm:ss');
+    const parsedValue = parseDate(value, this.props.timeFormate || 'HH:mm:ss');
     if (parsedValue) {
       const target = new Date(type === 'min' ? this.minDate : this.maxDate);
       if (target) {
@@ -536,5 +536,5 @@ export default class DateRangePanel extends PopperBase {
 
 
 DateRangePanel.defaultProps = {
-
+  timeFormate: ''
 }
