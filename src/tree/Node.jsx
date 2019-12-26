@@ -193,7 +193,7 @@ export default class Node extends Component {
 
   render(): React.DOM {
     const { childNodeRendered } = this.state;
-    const { treeNode, nodeModel, renderContent, isShowCheckbox, maxChoose } = this.props;
+    const { treeNode, nodeModel, renderContent, isShowCheckbox, maxChoose, dir } = this.props;
 
     let expanded = nodeModel.expanded;
 
@@ -210,7 +210,7 @@ export default class Node extends Component {
       >
         <div
           className="el-tree-node__content"
-          style={{ paddingLeft: `${(nodeModel.level - 1) * treeNode.props.indent}px` }}
+          style={dir === 'ltr' ? { paddingLeft: `${(nodeModel.level - 1) * treeNode.props.indent}px` } : { paddingRight: `${(nodeModel.level - 1) * treeNode.props.indent}px` }}
         >
           <span
             className={this.classNames('el-tree-node__expand-icon', {
@@ -253,10 +253,12 @@ Node.propTypes = {
   treeNode: PropTypes.object.isRequired,
   isShowCheckbox: PropTypes.bool,
   onCheckChange: PropTypes.func,
+  dir: PropTypes.string
 };
 
 Node.defaultProps = {
   nodeModel: {},
   options: {},
   onCheckChange() { },
+  dir: 'ltr'
 };

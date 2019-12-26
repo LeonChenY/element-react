@@ -289,7 +289,8 @@ var Node = function (_Component) {
           nodeModel = _props5.nodeModel,
           renderContent = _props5.renderContent,
           isShowCheckbox = _props5.isShowCheckbox,
-          maxChoose = _props5.maxChoose;
+          maxChoose = _props5.maxChoose,
+          dir = _props5.dir;
 
 
       var expanded = nodeModel.expanded;
@@ -310,7 +311,7 @@ var Node = function (_Component) {
           'div',
           {
             className: 'el-tree-node__content',
-            style: { paddingLeft: (nodeModel.level - 1) * treeNode.props.indent + 'px' }
+            style: dir === 'ltr' ? { paddingLeft: (nodeModel.level - 1) * treeNode.props.indent + 'px' } : { paddingRight: (nodeModel.level - 1) * treeNode.props.indent + 'px' }
           },
           _react2.default.createElement('span', {
             className: this.classNames('el-tree-node__expand-icon', {
@@ -370,13 +371,16 @@ Node.propTypes = {
   options: _libs.PropTypes.object,
   treeNode: _libs.PropTypes.object.isRequired,
   isShowCheckbox: _libs.PropTypes.bool,
-  onCheckChange: _libs.PropTypes.func
+  onCheckChange: _libs.PropTypes.func,
+  dir: _libs.PropTypes.string
 };
 
 Node.defaultProps = {
   nodeModel: {},
   options: {},
-  onCheckChange: function onCheckChange() {}
+  onCheckChange: function onCheckChange() {},
+
+  dir: 'ltr'
 };
 ;
 

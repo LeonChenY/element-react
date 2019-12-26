@@ -139,14 +139,15 @@ var Tree = function (_Component) {
 		    _onCheckChange = _props2.onCheckChange,
 		    onNodeClicked = _props2.onNodeClicked,
 		    emptyText = _props2.emptyText,
-		    maxChoose = _props2.maxChoose;
+		    maxChoose = _props2.maxChoose,
+		    dir = _props2.dir;
 
 
 		var renderEmptyText = function renderEmptyText() {
 			if (!_this2.root.childNodes || _this2.root.childNodes.length === 0) {
 				return React.createElement(
 					'div',
-					{ className: 'el-tree__empty-block' },
+					{ dir: dir, className: 'el-tree__empty-block' },
 					React.createElement(
 						'span',
 						{ className: 'el-tree__empty-text' },
@@ -159,6 +160,7 @@ var Tree = function (_Component) {
 		return React.createElement(
 			'div',
 			{
+				dir: dir,
 				style: this.style(),
 				className: this.className('el-tree', {
 					'el-tree--highlight-current': highlightCurrent,
@@ -167,6 +169,7 @@ var Tree = function (_Component) {
 			},
 			this.root.childNodes.map(function (e, idx) {
 				return React.createElement(Node, {
+					dir: dir,
 					ref: 'cnode',
 					key: _this2.getNodeKey(e, idx),
 					nodeModel: e,
@@ -247,7 +250,8 @@ Tree.propTypes = {
 	// (nodeModel.data, nodeModel, Node)=>Unit
 	onNodeExpand: PropTypes.func,
 	onNodeCollapse: PropTypes.func,
-	maxChoose: PropTypes.number
+	maxChoose: PropTypes.number,
+	dir: PropTypes.string
 };
 
 Tree.defaultProps = {
@@ -264,5 +268,7 @@ Tree.defaultProps = {
 	onNodeClicked: function onNodeClicked() {},
 	onCurrentChange: function onCurrentChange() {},
 	onNodeExpand: function onNodeExpand() {},
-	onNodeCollapse: function onNodeCollapse() {}
+	onNodeCollapse: function onNodeCollapse() {},
+
+	dir: 'ltr'
 };

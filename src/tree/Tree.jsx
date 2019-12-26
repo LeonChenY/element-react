@@ -126,13 +126,14 @@ export default class Tree extends Component {
 			onCheckChange,
 			onNodeClicked,
 			emptyText,
-			maxChoose
+      maxChoose,
+      dir
 		} = this.props;
 
 		const renderEmptyText = () => {
 			if (!this.root.childNodes || this.root.childNodes.length === 0) {
 				return (
-					<div className="el-tree__empty-block">
+					<div dir={dir} className="el-tree__empty-block">
 						<span className="el-tree__empty-text">{emptyText}</span>
 					</div>
 				)
@@ -141,6 +142,7 @@ export default class Tree extends Component {
 
 		return (
 			<div
+        dir={dir}
 				style={this.style()}
 				className={this.className('el-tree', {
 					'el-tree--highlight-current': highlightCurrent,
@@ -150,6 +152,7 @@ export default class Tree extends Component {
 				{this.root.childNodes.map((e, idx) => {
 					return (
 						<Node
+              dir={dir}
 							ref="cnode"
 							key={this.getNodeKey(e, idx)}
 							nodeModel={e}
@@ -215,7 +218,8 @@ Tree.propTypes = {
 	// (nodeModel.data, nodeModel, Node)=>Unit
 	onNodeExpand: PropTypes.func,
 	onNodeCollapse: PropTypes.func,
-	maxChoose: PropTypes.number
+  maxChoose: PropTypes.number,
+  dir: PropTypes.string,
 };
 
 Tree.defaultProps = {
@@ -232,5 +236,6 @@ Tree.defaultProps = {
 	onNodeClicked() { },
 	onCurrentChange() { },
 	onNodeExpand() { },
-	onNodeCollapse() { },
+  onNodeCollapse() { },
+  dir: 'ltr'
 };
