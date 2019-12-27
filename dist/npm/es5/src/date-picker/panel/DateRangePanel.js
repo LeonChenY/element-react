@@ -138,7 +138,8 @@ var DateRangePanel = function (_PopperBase) {
         firstDayOfWeek: _libs.PropTypes.range(0, 6),
         //()=>HtmlElement
         getPopperRefElement: _libs.PropTypes.func,
-        popperMixinOption: _libs.PropTypes.object
+        popperMixinOption: _libs.PropTypes.object,
+        dir: _libs.PropTypes.string
       }, _PopperBase2.PopperBase.propTypes);
     }
   }]);
@@ -390,7 +391,8 @@ var DateRangePanel = function (_PopperBase) {
           shortcuts = _props2.shortcuts,
           disabledDate = _props2.disabledDate,
           firstDayOfWeek = _props2.firstDayOfWeek,
-          isShowTime = _props2.isShowTime;
+          isShowTime = _props2.isShowTime,
+          dir = _props2.dir;
       var _state7 = this.state,
           date = _state7.date,
           rangeState = _state7.rangeState,
@@ -412,6 +414,7 @@ var DateRangePanel = function (_PopperBase) {
         'div',
         {
           ref: 'root',
+          dir: dir,
           className: this.classNames('el-picker-panel el-date-range-picker', {
             'has-sidebar': shortcuts,
             'has-time': isShowTime
@@ -722,7 +725,8 @@ exports.default = _default;
 
 
 DateRangePanel.defaultProps = {
-  timeFormate: ''
+  timeFormate: '',
+  dir: 'ltr'
 };
 ;
 

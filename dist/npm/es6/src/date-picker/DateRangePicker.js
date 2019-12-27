@@ -17,7 +17,7 @@ var DateRangePicker = function (_BasePicker) {
   _createClass(DateRangePicker, null, [{
     key: 'propTypes',
     get: function get() {
-      return Object.assign({}, { rangeSeparator: PropTypes.string }, BasePicker.propTypes,
+      return Object.assign({}, { rangeSeparator: PropTypes.string, dir: PropTypes.string }, BasePicker.propTypes,
       // default value is been defined in ./constants file
       pick(DateRangePanel.propTypes, ['value', 'isShowTime', 'shortcuts', 'firstDayOfWeek']));
     }

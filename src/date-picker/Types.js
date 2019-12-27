@@ -17,7 +17,8 @@ export type DateTableProps = {
   onPick: (any: any, bool: boolean)=>void,
   onChangeRange: ?(any: any)=>void,
   rangeState: ?{endDate: Date, selecting: boolean },
-  firstDayOfWeek: number
+  firstDayOfWeek: number,
+  dir: ?string
 }
 
 export type MonthTableProps = {
@@ -151,7 +152,8 @@ export type DateRangePickerProps = BasePickerProps & {
   isShowTime: boolean,
   shortcuts: ?Shortcut[],
   rangeSeparator: string,
-  firstDayofweek: ?number
+  firstDayofweek: ?number,
+  dir: ?string
 }
 
 

@@ -384,7 +384,8 @@ var DatePanel = function (_PopperBase) {
           selectionMode = _props3.selectionMode,
           disabledDate = _props3.disabledDate,
           showWeekNumber = _props3.showWeekNumber,
-          firstDayOfWeek = _props3.firstDayOfWeek;
+          firstDayOfWeek = _props3.firstDayOfWeek,
+          dir = _props3.dir;
       var date = this.state.date;
       var currentView = this.state.currentView;
 
@@ -393,6 +394,7 @@ var DatePanel = function (_PopperBase) {
       switch (currentView) {
         case PICKER_VIEWS.DATE:
           result = _react2.default.createElement(_basic.DateTable, {
+            dir: dir,
             onPick: this.handleDatePick.bind(this),
             date: date,
             value: value,
@@ -405,6 +407,7 @@ var DatePanel = function (_PopperBase) {
           break;
         case PICKER_VIEWS.YEAR:
           result = _react2.default.createElement(_basic.YearTable, {
+            dir: dir,
             ref: 'yearTable',
             value: value,
             date: date,
@@ -414,6 +417,7 @@ var DatePanel = function (_PopperBase) {
           break;
         case PICKER_VIEWS.MONTH:
           result = _react2.default.createElement(_basic.MonthTable, {
+            dir: dir,
             value: value,
             date: date,
             onPick: this.handleMonthPick.bind(this),

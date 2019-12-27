@@ -82,7 +82,8 @@ export default class DateRangePanel extends PopperBase {
       firstDayOfWeek: PropTypes.range(0, 6),
       //()=>HtmlElement
       getPopperRefElement: PropTypes.func,
-      popperMixinOption: PropTypes.object
+      popperMixinOption: PropTypes.object,
+      dir: PropTypes.string
     }, PopperBase.propTypes)
   }
 
@@ -315,7 +316,7 @@ export default class DateRangePanel extends PopperBase {
   }
 
   render() {
-    const { shortcuts, disabledDate, firstDayOfWeek, isShowTime } = this.props
+    const { shortcuts, disabledDate, firstDayOfWeek, isShowTime, dir } = this.props
     const { date, rangeState, minDate, maxDate, minTimePickerVisible, maxTimePickerVisible, minPickerWidth, maxPickerWidth, isInRange } = this.state
     const rightDate = this.rightDate
 
@@ -326,6 +327,7 @@ export default class DateRangePanel extends PopperBase {
     return (
       <div
         ref="root"
+        dir={dir}
         className={this.classNames('el-picker-panel el-date-range-picker', {
           'has-sidebar': shortcuts,
           'has-time': isShowTime
@@ -536,5 +538,6 @@ export default class DateRangePanel extends PopperBase {
 
 
 DateRangePanel.defaultProps = {
-  timeFormate: ''
+  timeFormate: '',
+  dir: 'ltr'
 }

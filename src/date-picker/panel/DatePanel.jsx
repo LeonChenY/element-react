@@ -312,7 +312,7 @@ export default class DatePanel extends PopperBase {
 
   // end: ------ public methods
   _pickerContent() {
-    const { value, selectionMode, disabledDate, showWeekNumber, firstDayOfWeek } = this.props
+    const { value, selectionMode, disabledDate, showWeekNumber, firstDayOfWeek, dir } = this.props
     const { date } = this.state
     const { currentView } = this.state
     let result = null
@@ -320,6 +320,7 @@ export default class DatePanel extends PopperBase {
     switch (currentView) {
       case PICKER_VIEWS.DATE:
         result = (<DateTable
+          dir={dir}
           onPick={this.handleDatePick.bind(this)}
           date={date}
           value={value}
@@ -332,6 +333,7 @@ export default class DatePanel extends PopperBase {
         break
       case PICKER_VIEWS.YEAR:
         result = (<YearTable
+          dir={dir}
           ref="yearTable"
           value={value}
           date={date}
@@ -341,6 +343,7 @@ export default class DatePanel extends PopperBase {
         break
       case PICKER_VIEWS.MONTH:
         result = (<MonthTable
+          dir={dir}
           value={value}
           date={date}
           onPick={this.handleMonthPick.bind(this)}

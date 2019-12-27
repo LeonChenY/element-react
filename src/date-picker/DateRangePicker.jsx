@@ -12,7 +12,7 @@ export default class DateRangePicker extends BasePicker {
   static get propTypes() {
     return Object.assign(
       {},
-      {rangeSeparator: PropTypes.string},
+      {rangeSeparator: PropTypes.string, dir: PropTypes.string},
       BasePicker.propTypes,
       // default value is been defined in ./constants file
       pick(DateRangePanel.propTypes,
