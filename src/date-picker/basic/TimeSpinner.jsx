@@ -58,7 +58,8 @@ export default class TimeSpinner extends Component {
       onChange: ({type})=>()
       */
       onChange: PropTypes.func.isRequired,
-      onSelectRangeChange: PropTypes.func
+      onSelectRangeChange: PropTypes.func,
+      dir: PropTypes.string
     };
   }
 
@@ -68,7 +69,8 @@ export default class TimeSpinner extends Component {
       minutes: 0,
       seconds: 0,
       isShowSeconds: true,
-      onSelectRangeChange: ()=>{}
+      onSelectRangeChange: ()=>{},
+      dir: 'ltr'
     };
   }
 
@@ -150,10 +152,11 @@ export default class TimeSpinner extends Component {
       minutes,
       seconds
     } = this.state;
-    const { isShowSeconds } = this.props;
+    const { isShowSeconds, dir } = this.props;
 
     return (
       <div
+        dir={dir}
         className={this.classNames('el-time-spinner', {
           'has-seconds': isShowSeconds
         })}

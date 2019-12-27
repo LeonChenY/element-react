@@ -68,6 +68,7 @@ export default class BasePicker extends Component {
         PropTypes.instanceOf(Date),
         PropTypes.arrayOf(PropTypes.instanceOf(Date))
       ]),
+      dir: PropTypes.string
     }
   }
 
@@ -77,6 +78,7 @@ export default class BasePicker extends Component {
       // (thisReactElement)=>Unit
       onFocus() { },
       onBlur() { },
+      dir: 'ltr'
     }
   }
 

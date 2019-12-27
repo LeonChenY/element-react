@@ -32,14 +32,15 @@ export default class TimePicker extends BasePicker {
       selectableRange: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.string)
-      ])
+      ]),
+      dir: PropTypes.string
     }, BasePicker.propTypes)
 
     return result;
   }
 
   static get defaultProps() {
-    let result: any =  Object.assign({}, BasePicker.defaultProps)
+    let result: any = Object.assign({}, BasePicker.defaultProps)
     return result;
   }
 
@@ -58,11 +59,11 @@ export default class TimePicker extends BasePicker {
       <TimePanel
         {...props}
         currentDate={state.value}
-        onCancel={()=>this.setState({pickerVisible: false})}
+        onCancel={() => this.setState({ pickerVisible: false })}
         onPicked={this.onPicked.bind(this)}
         onSelectRangeChange={this._onSelectionChange}
         selectableRange={converSelectRange(props)}
-        />
+      />
     )
   }
 }

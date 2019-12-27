@@ -5,7 +5,7 @@ import { PropTypes } from '../../../libs';
 import { scrollIntoView } from '../../../libs/utils/dom';
 
 import { Scrollbar } from '../../scrollbar'
-import type {TimeSelectPanelProps } from '../Types';
+import type { TimeSelectPanelProps } from '../Types';
 import { PopperBase } from './PopperBase'
 
 export default class TimeSelectPanel extends PopperBase {
@@ -23,7 +23,8 @@ export default class TimeSelectPanel extends PopperBase {
       dateParser: PropTypes.func.isRequired,
       //()=>HtmlElement
       getPopperRefElement: PropTypes.func,
-      popperMixinOption: PropTypes.object
+      popperMixinOption: PropTypes.object,
+      dir: PropTypes.string
     }, PopperBase.propTypes)
   }
 
@@ -59,10 +60,11 @@ export default class TimeSelectPanel extends PopperBase {
   }
 
   render() {
-    const { value } = this.props
+    const { value, dir } = this.props
 
     return (
       <div
+        dir={dir}
         ref="root"
         className="el-picker-panel time-select">
         <Scrollbar wrapClass="el-picker-panel__content" noresize={true}>
@@ -111,6 +113,7 @@ TimeSelectPanel.defaultProps = {
   minTime: '',
   onPicked() { },
   popperMixinOption: {},
+  dir: 'ltr'
 };
 
 

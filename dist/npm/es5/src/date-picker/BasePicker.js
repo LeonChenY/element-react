@@ -111,7 +111,8 @@ var BasePicker = function (_Component) {
         // (Date|Date[]|null)=>(), null when click on clear icon
         onChange: _libs.PropTypes.func,
         // time select pannel:
-        value: _libs.PropTypes.oneOfType([_libs.PropTypes.instanceOf(Date), _libs.PropTypes.arrayOf(_libs.PropTypes.instanceOf(Date))])
+        value: _libs.PropTypes.oneOfType([_libs.PropTypes.instanceOf(Date), _libs.PropTypes.arrayOf(_libs.PropTypes.instanceOf(Date))]),
+        dir: _libs.PropTypes.string
       };
     }
   }, {
@@ -121,7 +122,9 @@ var BasePicker = function (_Component) {
         value: new Date(),
         // (thisReactElement)=>Unit
         onFocus: function onFocus() {},
-        onBlur: function onBlur() {}
+        onBlur: function onBlur() {},
+
+        dir: 'ltr'
       };
     }
   }]);

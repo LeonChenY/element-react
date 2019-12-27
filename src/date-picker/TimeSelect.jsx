@@ -14,6 +14,7 @@ export default class TimeSelect extends BasePicker {
       end: PropTypes.string,
       step: PropTypes.string,
       minTime: PropTypes.instanceOf(Date),
+      dir: PropTypes.string
     },
       BasePicker.propTypes)
 
@@ -35,10 +36,10 @@ export default class TimeSelect extends BasePicker {
     return super.isDateValid(value) && TimeSelectPanel.isValid(this.dateToStr(value), this.panelProps())
   }
 
-  panelProps(props: ?TimeSelectProps){
+  panelProps(props: ?TimeSelectProps) {
     const ps = props || this.props
     const minTime = this.dateToStr(this.props.minTime)
-    return {...ps, minTime}
+    return { ...ps, minTime }
   }
 
   pickerPanel(state: any, props: TimeSelectProps) {
@@ -51,8 +52,8 @@ export default class TimeSelect extends BasePicker {
         dateParser={(str) => {
           const r = this.parseDate(str)
           return r
-        } }
-        />
+        }}
+      />
     )
   }
 }

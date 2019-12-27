@@ -108,7 +108,8 @@ var TimeSpinner = function (_Component) {
          onChange: ({type})=>()
         */
         onChange: _libs.PropTypes.func.isRequired,
-        onSelectRangeChange: _libs.PropTypes.func
+        onSelectRangeChange: _libs.PropTypes.func,
+        dir: _libs.PropTypes.string
       };
     }
   }, {
@@ -119,7 +120,8 @@ var TimeSpinner = function (_Component) {
         minutes: 0,
         seconds: 0,
         isShowSeconds: true,
-        onSelectRangeChange: function onSelectRangeChange() {}
+        onSelectRangeChange: function onSelectRangeChange() {},
+        dir: 'ltr'
       };
     }
   }]);
@@ -220,12 +222,15 @@ var TimeSpinner = function (_Component) {
           hours = _state.hours,
           minutes = _state.minutes,
           seconds = _state.seconds;
-      var isShowSeconds = this.props.isShowSeconds;
+      var _props = this.props,
+          isShowSeconds = _props.isShowSeconds,
+          dir = _props.dir;
 
 
       return _react2.default.createElement(
         'div',
         {
+          dir: dir,
           className: this.classNames('el-time-spinner', {
             'has-seconds': isShowSeconds
           })

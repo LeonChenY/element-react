@@ -28,7 +28,8 @@ var TimePanel = function (_PopperBase) {
     get: function get() {
       return Object.assign({}, {
         selectableRange: TimeSpinner.propTypes.selectableRange,
-        onSelectRangeChange: TimeSpinner.propTypes.onSelectRangeChange
+        onSelectRangeChange: TimeSpinner.propTypes.onSelectRangeChange,
+        dir: PropTypes.string
       }, {
         pickerWidth: PropTypes.number,
         currentDate: PropTypes.instanceOf(Date),
@@ -47,7 +48,8 @@ var TimePanel = function (_PopperBase) {
     key: 'defaultProps',
     get: function get() {
       return {
-        popperMixinOption: {}
+        popperMixinOption: {},
+        dir: 'ltr'
       };
     }
   }]);
@@ -108,7 +110,8 @@ var TimePanel = function (_PopperBase) {
         currentDate = _state.currentDate;
     var _props2 = this.props,
         onSelectRangeChange = _props2.onSelectRangeChange,
-        selectableRange = _props2.selectableRange;
+        selectableRange = _props2.selectableRange,
+        dir = _props2.dir;
 
 
     var hours = currentDate.getHours();
@@ -120,12 +123,14 @@ var TimePanel = function (_PopperBase) {
     return React.createElement(
       'div',
       {
+        dir: dir,
         ref: 'root',
         className: 'el-time-panel' },
       React.createElement(
         'div',
         { className: this.classNames('el-time-panel__content', { 'has-seconds': isShowSeconds }) },
         React.createElement(TimeSpinner, {
+          dir: dir,
           ref: 'spinner',
           onChange: this.handleChange.bind(this),
           isShowSeconds: isShowSeconds,

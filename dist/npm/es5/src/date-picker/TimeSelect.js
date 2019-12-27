@@ -62,7 +62,8 @@ var TimeSelect = function (_BasePicker) {
         start: _libs.PropTypes.string,
         end: _libs.PropTypes.string,
         step: _libs.PropTypes.string,
-        minTime: _libs.PropTypes.instanceOf(Date)
+        minTime: _libs.PropTypes.instanceOf(Date),
+        dir: _libs.PropTypes.string
       }, _BasePicker3.default.propTypes);
 
       return result;

@@ -39,7 +39,8 @@ export type TimeSpinnerProps = {
   //[[datefrom, dateend]...]
   selectableRange: TimeSpinnerSelectableRange,
   onChange: (e: {TimeTypes: number})=>void,
-  onSelectRangeChange: TimeSpinnerOnSelectRangeChange
+  onSelectRangeChange: TimeSpinnerOnSelectRangeChange,
+  dir?: string
 }
 
 export type YearTableProps = {
@@ -87,6 +88,7 @@ export type TimePanelProps = {
   onCancel: ()=>void,
   getPopperRefElement: ?GetPopperRefElement,
   popperMixinOption: ?PopperMixinOption,
+  dir?: string
 }
 
 export type TimeRangePanelProps = {
@@ -112,6 +114,7 @@ export type TimeSelectPanelProps = {
   dateParser: ?DateParser,
   getPopperRefElement: ?GetPopperRefElement,
   popperMixinOption: ?PopperMixinOption,
+  dir?: string
 }
 
 
@@ -153,6 +156,7 @@ export type DateRangePickerProps = BasePickerProps & {
 
 export type TimePickerProps = BasePickerProps & {
   selectableRange: string | string[],
+  dir?: string
 }
 
 
@@ -164,5 +168,6 @@ export type TimeSelectProps = BasePickerProps & {
   start: ?string,
   end: ?string,
   step: ?string,
-  minTime: ?Date
+  minTime: ?Date,
+  dir?: string
 }

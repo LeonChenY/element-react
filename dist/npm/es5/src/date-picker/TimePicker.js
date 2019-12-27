@@ -78,7 +78,8 @@ var TimePicker = function (_BasePicker) {
       var result = Object.assign({}, {
         // '18:30:00 - 20:30:00'
         // or ['09:30:00 - 12:00:00', '14:30:00 - 18:30:00']
-        selectableRange: _libs.PropTypes.oneOfType([_libs.PropTypes.string, _libs.PropTypes.arrayOf(_libs.PropTypes.string)])
+        selectableRange: _libs.PropTypes.oneOfType([_libs.PropTypes.string, _libs.PropTypes.arrayOf(_libs.PropTypes.string)]),
+        dir: _libs.PropTypes.string
       }, _BasePicker3.default.propTypes);
 
       return result;

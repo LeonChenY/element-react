@@ -29,7 +29,8 @@ var TimeSelectPanel = function (_PopperBase) {
         dateParser: PropTypes.func.isRequired,
         //()=>HtmlElement
         getPopperRefElement: PropTypes.func,
-        popperMixinOption: PropTypes.object
+        popperMixinOption: PropTypes.object,
+        dir: PropTypes.string
       }, PopperBase.propTypes);
     }
   }]);
@@ -79,12 +80,15 @@ var TimeSelectPanel = function (_PopperBase) {
   TimeSelectPanel.prototype.render = function render() {
     var _this3 = this;
 
-    var value = this.props.value;
+    var _props2 = this.props,
+        value = _props2.value,
+        dir = _props2.dir;
 
 
     return React.createElement(
       'div',
       {
+        dir: dir,
         ref: 'root',
         className: 'el-picker-panel time-select' },
       React.createElement(
@@ -156,7 +160,8 @@ TimeSelectPanel.defaultProps = {
   minTime: '',
   onPicked: function onPicked() {},
 
-  popperMixinOption: {}
+  popperMixinOption: {},
+  dir: 'ltr'
 };
 
 var parseTime = function parseTime(time) {

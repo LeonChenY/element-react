@@ -23,7 +23,8 @@ export default class TimePanel extends PopperBase {
     return Object.assign({},
       {
         selectableRange: TimeSpinner.propTypes.selectableRange,
-        onSelectRangeChange: TimeSpinner.propTypes.onSelectRangeChange
+        onSelectRangeChange: TimeSpinner.propTypes.onSelectRangeChange,
+        dir: PropTypes.string
       }, {
         pickerWidth: PropTypes.number,
         currentDate: PropTypes.instanceOf(Date),
@@ -42,7 +43,8 @@ export default class TimePanel extends PopperBase {
 
   static get defaultProps() {
     return {
-      popperMixinOption: {}
+      popperMixinOption: {},
+      dir: 'ltr'
     }
   }
 
@@ -86,7 +88,7 @@ export default class TimePanel extends PopperBase {
 
   render() {
     const { isShowSeconds, currentDate } = this.state
-    const { onSelectRangeChange, selectableRange } = this.props
+    const { onSelectRangeChange, selectableRange, dir } = this.props
 
     const hours = currentDate.getHours();
     const minutes = currentDate.getMinutes();
@@ -96,10 +98,12 @@ export default class TimePanel extends PopperBase {
 
     return (
       <div
+        dir={dir}
         ref="root"
         className="el-time-panel">
         <div className={this.classNames('el-time-panel__content', { 'has-seconds': isShowSeconds })}>
           <TimeSpinner
+            dir={dir}
             ref="spinner"
             onChange={this.handleChange.bind(this)}
             isShowSeconds={isShowSeconds}
