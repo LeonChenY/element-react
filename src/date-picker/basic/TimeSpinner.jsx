@@ -162,6 +162,7 @@ export default class TimeSpinner extends Component {
         })}
       >
         <Scrollbar
+          dir={dir}
           onMouseEnter={() => this.emitSelectRange('hours')}
           onWheel={() => {
             this.handleScroll('hours');
@@ -188,6 +189,7 @@ export default class TimeSpinner extends Component {
           })}
         </Scrollbar>
         <Scrollbar
+          dir={dir}
           onMouseEnter={() => this.emitSelectRange('minutes')}
           onWheel={() => this.handleScroll('minutes')}
           ref="minutes"
@@ -212,6 +214,7 @@ export default class TimeSpinner extends Component {
         </Scrollbar>
         {isShowSeconds &&
           <Scrollbar
+            dir={dir}
             onMouseEnter={() => this.emitSelectRange('seconds')}
             onWheel={() => this.handleScroll('seconds')}
             ref="seconds"

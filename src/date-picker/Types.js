@@ -142,7 +142,8 @@ export type DatePickerProps =  BasePickerProps & {
   disabledDate: ?DisableDateFunc,
   getPopperRefElement: ?GetPopperRefElement,
   popperMixinOption: ?PopperMixinOption,
-  firstDayofweek: ?number
+  firstDayofweek: ?number,
+  dir: ?string
 }
 
 export type DateRangePickerProps = BasePickerProps & {

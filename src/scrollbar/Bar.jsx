@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes, Component } from '../../libs';
-import { BAR_MAP, renderThumbStyle} from './util';
-import {on, off} from '../../libs/utils/dom';
+import { BAR_MAP, renderThumbStyle } from './util';
+import { on, off } from '../../libs/utils/dom';
 
 export class Bar extends Component {
   constructor(props) {
@@ -64,18 +64,19 @@ export class Bar extends Component {
   }
 
   render() {
-    const { size, move } = this.props;
+    const { size, move, dir } = this.props;
 
     return (
       <div
         ref={root => this.rootRef = root}
+        dir={dir ? dir : 'ltr'}
         className={this.classNames('el-scrollbar__bar', `is-${this.bar.key}`)}
-        onMouseDown={ this.clickTrackHandler } >
+        onMouseDown={this.clickTrackHandler} >
         <div
           ref={thumb => this.thumbRef = thumb}
           className="el-scrollbar__thumb"
-          onMouseDown={ this.clickThumbHandler }
-          style={ renderThumbStyle({ size, move, bar: this.bar }) }>
+          onMouseDown={this.clickThumbHandler}
+          style={renderThumbStyle({ size, move, bar: this.bar })}>
         </div>
       </div>
     );
@@ -86,5 +87,6 @@ Bar.propTypes = {
   vertical: PropTypes.bool,
   size: PropTypes.string,
   move: PropTypes.number,
-  getParentWrap: PropTypes.func.isRequired
+  getParentWrap: PropTypes.func.isRequired,
+  dir: PropTypes.string
 }

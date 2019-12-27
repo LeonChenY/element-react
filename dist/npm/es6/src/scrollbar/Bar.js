@@ -71,7 +71,8 @@ export var Bar = function (_Component) {
 
     var _props = this.props,
         size = _props.size,
-        move = _props.move;
+        move = _props.move,
+        dir = _props.dir;
 
 
     return React.createElement(
@@ -80,6 +81,7 @@ export var Bar = function (_Component) {
         ref: function ref(root) {
           return _this2.rootRef = root;
         },
+        dir: dir ? dir : 'ltr',
         className: this.classNames('el-scrollbar__bar', 'is-' + this.bar.key),
         onMouseDown: this.clickTrackHandler },
       React.createElement('div', {
@@ -111,5 +113,6 @@ Bar.propTypes = {
   vertical: PropTypes.bool,
   size: PropTypes.string,
   move: PropTypes.number,
-  getParentWrap: PropTypes.func.isRequired
+  getParentWrap: PropTypes.func.isRequired,
+  dir: PropTypes.string
 };

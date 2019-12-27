@@ -149,7 +149,8 @@ var Scrollbar = exports.Scrollbar = function (_Component) {
           wrapClass = _props.wrapClass,
           noresize = _props.noresize,
           className = _props.className,
-          others = (0, _objectWithoutProperties3.default)(_props, ['native', 'viewStyle', 'wrapStyle', 'viewClass', 'children', 'viewComponent', 'wrapClass', 'noresize', 'className']);
+          dir = _props.dir,
+          others = (0, _objectWithoutProperties3.default)(_props, ['native', 'viewStyle', 'wrapStyle', 'viewClass', 'children', 'viewComponent', 'wrapClass', 'noresize', 'className', 'dir']);
       var _state = this.state,
           moveX = _state.moveX,
           moveY = _state.moveY,
@@ -179,6 +180,7 @@ var Scrollbar = exports.Scrollbar = function (_Component) {
         var wrap = _react2.default.createElement(
           'div',
           (0, _extends3.default)({}, others, {
+            dir: dir,
             ref: 'wrap',
             key: 0,
             style: style,
@@ -187,15 +189,16 @@ var Scrollbar = exports.Scrollbar = function (_Component) {
           }),
           view
         );
-        nodes = [wrap, _react2.default.createElement(_Bar.Bar, { key: 1, move: moveX, size: sizeWidth, getParentWrap: function getParentWrap() {
+        nodes = [wrap, _react2.default.createElement(_Bar.Bar, { dir: dir, key: 1, move: moveX, size: sizeWidth, getParentWrap: function getParentWrap() {
             return _this3.wrap;
-          } }), _react2.default.createElement(_Bar.Bar, { key: 2, move: moveY, size: sizeHeight, getParentWrap: function getParentWrap() {
+          } }), _react2.default.createElement(_Bar.Bar, { dir: dir, key: 2, move: moveY, size: sizeHeight, getParentWrap: function getParentWrap() {
             return _this3.wrap;
           }, vertical: true })];
       } else {
         nodes = [_react2.default.createElement(
           'div',
           (0, _extends3.default)({}, others, {
+            dir: dir,
             key: 0,
             ref: 'wrap',
             className: this.classNames(wrapClass, 'el-scrollbar__wrap'),
@@ -230,11 +233,13 @@ Scrollbar.propTypes = {
   viewStyle: _libs.PropTypes.object,
   className: _libs.PropTypes.string,
   viewComponent: _libs.PropTypes.oneOfType([_libs.PropTypes.string, _libs.PropTypes.element]),
-  noresize: _libs.PropTypes.bool
+  noresize: _libs.PropTypes.bool,
+  dir: _libs.PropTypes.string
 };
 
 Scrollbar.defaultProps = {
-  viewComponent: 'div'
+  viewComponent: 'div',
+  dir: 'ltr'
 };
 ;
 

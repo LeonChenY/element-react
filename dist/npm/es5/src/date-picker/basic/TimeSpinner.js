@@ -238,6 +238,7 @@ var TimeSpinner = function (_Component) {
         _react2.default.createElement(
           _scrollbar.Scrollbar,
           {
+            dir: dir,
             onMouseEnter: function onMouseEnter() {
               return _this4.emitSelectRange('hours');
             },
@@ -270,6 +271,7 @@ var TimeSpinner = function (_Component) {
         _react2.default.createElement(
           _scrollbar.Scrollbar,
           {
+            dir: dir,
             onMouseEnter: function onMouseEnter() {
               return _this4.emitSelectRange('minutes');
             },
@@ -301,6 +303,7 @@ var TimeSpinner = function (_Component) {
         isShowSeconds && _react2.default.createElement(
           _scrollbar.Scrollbar,
           {
+            dir: dir,
             onMouseEnter: function onMouseEnter() {
               return _this4.emitSelectRange('seconds');
             },

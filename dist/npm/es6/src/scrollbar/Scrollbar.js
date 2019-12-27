@@ -96,7 +96,8 @@ export var Scrollbar = function (_Component) {
         wrapClass = _props.wrapClass,
         noresize = _props.noresize,
         className = _props.className,
-        others = _objectWithoutProperties(_props, ['native', 'viewStyle', 'wrapStyle', 'viewClass', 'children', 'viewComponent', 'wrapClass', 'noresize', 'className']);
+        dir = _props.dir,
+        others = _objectWithoutProperties(_props, ['native', 'viewStyle', 'wrapStyle', 'viewClass', 'children', 'viewComponent', 'wrapClass', 'noresize', 'className', 'dir']);
 
     var _state = this.state,
         moveX = _state.moveX,
@@ -127,6 +128,7 @@ export var Scrollbar = function (_Component) {
       var wrap = React.createElement(
         'div',
         _extends({}, others, {
+          dir: dir,
           ref: 'wrap',
           key: 0,
           style: style,
@@ -135,15 +137,16 @@ export var Scrollbar = function (_Component) {
         }),
         view
       );
-      nodes = [wrap, React.createElement(Bar, { key: 1, move: moveX, size: sizeWidth, getParentWrap: function getParentWrap() {
+      nodes = [wrap, React.createElement(Bar, { dir: dir, key: 1, move: moveX, size: sizeWidth, getParentWrap: function getParentWrap() {
           return _this3.wrap;
-        } }), React.createElement(Bar, { key: 2, move: moveY, size: sizeHeight, getParentWrap: function getParentWrap() {
+        } }), React.createElement(Bar, { dir: dir, key: 2, move: moveY, size: sizeHeight, getParentWrap: function getParentWrap() {
           return _this3.wrap;
         }, vertical: true })];
     } else {
       nodes = [React.createElement(
         'div',
         _extends({}, others, {
+          dir: dir,
           key: 0,
           ref: 'wrap',
           className: this.classNames(wrapClass, 'el-scrollbar__wrap'),
@@ -173,9 +176,11 @@ Scrollbar.propTypes = {
   viewStyle: PropTypes.object,
   className: PropTypes.string,
   viewComponent: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  noresize: PropTypes.bool
+  noresize: PropTypes.bool,
+  dir: PropTypes.string
 };
 
 Scrollbar.defaultProps = {
-  viewComponent: 'div'
+  viewComponent: 'div',
+  dir: 'ltr'
 };

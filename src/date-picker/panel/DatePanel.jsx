@@ -44,6 +44,7 @@ export default class DatePanel extends PopperBase {
       // (Date)=>bool, if true, disabled
       disabledDate: PropTypes.func,
       firstDayOfWeek: PropTypes.range(0, 6),
+      dir: PropTypes.string
 
     }, PopperBase.propTypes)
   }
@@ -354,7 +355,7 @@ export default class DatePanel extends PopperBase {
   }
 
   render() {
-    const { isShowTime, shortcuts } = this.props
+    const { isShowTime, shortcuts, dir } = this.props
     const { currentView, date, pickerWidth, timePickerVisible } = this.state
     const { month } = deconstructDate(date)
     const t = Locale.t
@@ -362,6 +363,7 @@ export default class DatePanel extends PopperBase {
     return (
       <div
         ref="root"
+        dir={dir}
         className={this.classNames('el-picker-panel el-date-picker', {
           'has-sidebar': shortcuts,
           'has-time': isShowTime
@@ -516,4 +518,5 @@ export default class DatePanel extends PopperBase {
 DatePanel.defaultProps = {
   isShowTime: false,
   selectionMode: SELECTION_MODES.DAY,
+  dir: 'ltr'
 }

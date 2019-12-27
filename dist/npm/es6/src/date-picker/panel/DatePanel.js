@@ -49,7 +49,8 @@ var DatePanel = function (_PopperBase) {
         })),
         // (Date)=>bool, if true, disabled
         disabledDate: PropTypes.func,
-        firstDayOfWeek: PropTypes.range(0, 6)
+        firstDayOfWeek: PropTypes.range(0, 6),
+        dir: PropTypes.string
 
       }, PopperBase.propTypes);
     }
@@ -363,7 +364,8 @@ var DatePanel = function (_PopperBase) {
 
     var _props4 = this.props,
         isShowTime = _props4.isShowTime,
-        shortcuts = _props4.shortcuts;
+        shortcuts = _props4.shortcuts,
+        dir = _props4.dir;
     var _state4 = this.state,
         currentView = _state4.currentView,
         date = _state4.date,
@@ -379,6 +381,7 @@ var DatePanel = function (_PopperBase) {
       'div',
       {
         ref: 'root',
+        dir: dir,
         className: this.classNames('el-picker-panel el-date-picker', {
           'has-sidebar': shortcuts,
           'has-time': isShowTime
@@ -602,5 +605,6 @@ export default DatePanel;
 
 DatePanel.defaultProps = {
   isShowTime: false,
-  selectionMode: SELECTION_MODES.DAY
+  selectionMode: SELECTION_MODES.DAY,
+  dir: 'ltr'
 };

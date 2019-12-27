@@ -22,31 +22,31 @@ export class Scrollbar extends Component {
     this.update = this._update.bind(this)
   }
 
-  get wrap(){
+  get wrap() {
     return this.refs.wrap;
   }
 
-  componentDidMount(){
+  componentDidMount() {
     if (this.native) return;
     let rafId = requestAnimationFrame(this.update)
-    this.cleanRAF = ()=>{
+    this.cleanRAF = () => {
       cancelAnimationFrame(rafId)
     }
   }
 
   componentDidUpdate() {
     this.resizeDom = ReactDOM.findDOMNode(this.refs.resize)
-    if (!this.props.noresize){
+    if (!this.props.noresize) {
       this.cleanResize && this.cleanResize();
       addResizeListener(this.resizeDom, this.update)
-      this.cleanResize = ()=>{
+      this.cleanResize = () => {
         removeResizeListener(this.resizeDom, this.update);
       }
     }
   }
-  
 
-  componentWillUnmount(){
+
+  componentWillUnmount() {
     this.cleanRAF();
     this.cleanResize && this.cleanResize();
   }
@@ -70,7 +70,7 @@ export class Scrollbar extends Component {
     let sizeHeight = (heightPercentage < 100) ? (heightPercentage + '%') : '';
     let sizeWidth = (widthPercentage < 100) ? (widthPercentage + '%') : '';
 
-    this.setState({sizeHeight, sizeWidth})
+    this.setState({ sizeHeight, sizeWidth })
   }
 
   render() {
@@ -78,18 +78,18 @@ export class Scrollbar extends Component {
     /* eslint-disable */
     let {
       native, viewStyle, wrapStyle, viewClass, children, viewComponent, wrapClass, noresize,
-      className, ...others} = this.props;
-    let {moveX, moveY, sizeWidth, sizeHeight} = this.state;
+      className, dir, ...others } = this.props;
+    let { moveX, moveY, sizeWidth, sizeHeight } = this.state;
     /* eslint-enable */
 
     let style = wrapStyle;
     const gutter = getScrollBarWidth();
     if (gutter) {
       const gutterWith = `-${gutter}px`;
-      if (Array.isArray(wrapStyle)){
-        style = Object.assign.apply(null, [...wrapStyle, {marginRight: gutterWith, marginBottom: gutterWith}])
+      if (Array.isArray(wrapStyle)) {
+        style = Object.assign.apply(null, [...wrapStyle, { marginRight: gutterWith, marginBottom: gutterWith }])
       } else {
-        style = Object.assign({}, wrapStyle, {marginRight: gutterWith, marginBottom: gutterWith})
+        style = Object.assign({}, wrapStyle, { marginRight: gutterWith, marginBottom: gutterWith })
       }
     }
 
@@ -100,32 +100,34 @@ export class Scrollbar extends Component {
     }, children);
 
     let nodes;
-    if (!native){
+    if (!native) {
       const wrap = (
-        <div 
+        <div
           {...others}
+          dir={dir}
           ref="wrap"
           key={0}
           style={style}
           onScroll={this.handleScroll.bind(this)}
           className={this.classNames(wrapClass, 'el-scrollbar__wrap', gutter ? '' : 'el-scrollbar__wrap--hidden-default')}
-          >
+        >
           {view}
         </div>
       )
       nodes = [
         wrap,
-        <Bar key={1} move={moveX} size={sizeWidth} getParentWrap={()=>this.wrap}></Bar>,
-        <Bar key={2} move={moveY} size={sizeHeight} getParentWrap={()=>this.wrap} vertical={true}></Bar>,
+        <Bar dir={dir} key={1} move={moveX} size={sizeWidth} getParentWrap={() => this.wrap}></Bar>,
+        <Bar dir={dir} key={2} move={moveY} size={sizeHeight} getParentWrap={() => this.wrap} vertical={true}></Bar>,
       ]
-    }else {
+    } else {
       nodes = [
         (
-          <div 
+          <div
             {...others}
-            key={0} 
-            ref="wrap" 
-            className={this.classNames(wrapClass, 'el-scrollbar__wrap')} 
+            dir={dir}
+            key={0}
+            ref="wrap"
+            className={this.classNames(wrapClass, 'el-scrollbar__wrap')}
             style={style}>
             {view}
           </div>
@@ -133,7 +135,7 @@ export class Scrollbar extends Component {
       ]
     }
 
-    return React.createElement('div', {className: this.classNames('el-scrollbar', className)}, nodes)
+    return React.createElement('div', { className: this.classNames('el-scrollbar', className) }, nodes)
   }
 }
 
@@ -151,9 +153,11 @@ Scrollbar.propTypes = {
   viewComponent: PropTypes.oneOfType([
     PropTypes.string, PropTypes.element
   ]),
-  noresize: PropTypes.bool
+  noresize: PropTypes.bool,
+  dir: PropTypes.string
 }
 
 Scrollbar.defaultProps = {
-  viewComponent: 'div'
+  viewComponent: 'div',
+  dir: 'ltr'
 }
