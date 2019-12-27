@@ -272,7 +272,7 @@ export default class BasePicker extends Component {
   }
 
   render() {
-    const { isReadOnly, placeholder, isDisabled, className } = this.props;
+    const { isReadOnly, placeholder, isDisabled, className, dir } = this.props;
     const { pickerVisible, value, text, isShowClose } = this.state;
 
     const createIconSlot = () => {
@@ -328,6 +328,7 @@ export default class BasePicker extends Component {
 
     return (
       <span
+        dir={dir}
         className={this.classNames('el-date-editor', className, {
           'is-have-trigger': this.calcIsShowTrigger(),
           'is-active': pickerVisible,

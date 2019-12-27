@@ -362,7 +362,8 @@ var BasePicker = function (_Component) {
           isReadOnly = _props2.isReadOnly,
           placeholder = _props2.placeholder,
           isDisabled = _props2.isDisabled,
-          className = _props2.className;
+          className = _props2.className,
+          dir = _props2.dir;
       var _state2 = this.state,
           pickerVisible = _state2.pickerVisible,
           value = _state2.value,
@@ -424,6 +425,7 @@ var BasePicker = function (_Component) {
       return _react2.default.createElement(
         'span',
         {
+          dir: dir,
           className: this.classNames('el-date-editor', className, {
             'is-have-trigger': this.calcIsShowTrigger(),
             'is-active': pickerVisible,
