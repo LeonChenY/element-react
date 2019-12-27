@@ -397,7 +397,8 @@ declare namespace ElementReact {
     onNodeClicked?(data?, node?): void
     onCurrentChange?(data?, node?): void
     onNodeExpand?(data?, nodeModel?, node?): void
-    onNodeCollapse?(data?, nodeModel?, node?): void
+    onNodeCollapse?(data?, nodeModel?, node?): void,
+    dir?: string
   }
   export class Tree extends ElementReactLibs.Component<TreeProps, {}> {
     filter(...args): void
