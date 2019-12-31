@@ -324,6 +324,10 @@ export default class DateRangePanel extends PopperBase {
     const leftLabel = `${date.getFullYear()} ${t('el.datepicker.year')} ` + t(`el.datepicker.month${date.getMonth() + 1}`)
     const rightLabel = `${rightDate.getFullYear()} ${t('el.datepicker.year')} ` + t(`el.datepicker.month${rightDate.getMonth() + 1}`)
 
+    console.log('DATE RANGE PANEL TEST');
+    console.log(dir);
+    console.log('DIR');
+
     return (
       <div
         ref="root"
