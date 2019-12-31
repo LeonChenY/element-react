@@ -326,6 +326,9 @@ export default class BasePicker extends Component {
       }
     }
 
+    console.log('BasePicker');
+    console.log(dir);
+
     return (
       <span
         dir={dir}
