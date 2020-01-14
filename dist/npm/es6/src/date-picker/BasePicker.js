@@ -359,9 +359,6 @@ var BasePicker = function (_Component) {
       }
     };
 
-    console.log('BasePicker');
-    console.log(dir);
-
     return React.createElement(
       'span',
       {

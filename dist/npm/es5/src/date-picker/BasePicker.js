@@ -422,9 +422,6 @@ var BasePicker = function (_Component) {
         }
       };
 
-      console.log('BasePicker');
-      console.log(dir);
-
       return _react2.default.createElement(
         'span',
         {
