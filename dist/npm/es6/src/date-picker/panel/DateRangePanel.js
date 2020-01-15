@@ -338,10 +338,6 @@ var DateRangePanel = function (_PopperBase) {
     var leftLabel = date.getFullYear() + ' ' + t('el.datepicker.year') + ' ' + t('el.datepicker.month' + (date.getMonth() + 1));
     var rightLabel = rightDate.getFullYear() + ' ' + t('el.datepicker.year') + ' ' + t('el.datepicker.month' + (rightDate.getMonth() + 1));
 
-    console.log('DATE RANGE PANEL TEST');
-    console.log(dir);
-    console.log('DIR');
-
     return React.createElement(
       'div',
       {
