@@ -429,11 +429,11 @@ var BasePicker = function (_Component) {
         'span',
         {
           dir: dir,
-          error: error,
           className: this.classNames('el-date-editor', className, {
             'is-have-trigger': this.calcIsShowTrigger(),
             'is-active': pickerVisible,
-            'is-filled': !!value
+            'is-filled': !!value,
+            'is-error': error
           }),
 
           ref: function ref(v) {

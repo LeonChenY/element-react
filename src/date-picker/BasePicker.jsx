@@ -331,11 +331,11 @@ export default class BasePicker extends Component {
     return (
       <span
         dir={dir}
-        error={error}
         className={this.classNames('el-date-editor', className, {
           'is-have-trigger': this.calcIsShowTrigger(),
           'is-active': pickerVisible,
-          'is-filled': !!value
+          'is-filled': !!value,
+          'is-error': error
         })}
 
         ref={v => this.domRoot = v}
