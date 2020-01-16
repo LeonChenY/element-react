@@ -68,7 +68,8 @@ var BasePicker = function (_Component) {
         onChange: PropTypes.func,
         // time select pannel:
         value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.arrayOf(PropTypes.instanceOf(Date))]),
-        dir: PropTypes.string
+        dir: PropTypes.string,
+        error: PropTypes.bool
       };
     }
   }, {
@@ -80,7 +81,8 @@ var BasePicker = function (_Component) {
         onFocus: function onFocus() {},
         onBlur: function onBlur() {},
 
-        dir: 'ltr'
+        dir: 'ltr',
+        error: false
       };
     }
   }]);
@@ -299,7 +301,8 @@ var BasePicker = function (_Component) {
         placeholder = _props2.placeholder,
         isDisabled = _props2.isDisabled,
         className = _props2.className,
-        dir = _props2.dir;
+        dir = _props2.dir,
+        error = _props2.error;
     var _state2 = this.state,
         pickerVisible = _state2.pickerVisible,
         value = _state2.value,
@@ -363,6 +366,7 @@ var BasePicker = function (_Component) {
       'span',
       {
         dir: dir,
+        error: error,
         className: this.classNames('el-date-editor', className, {
           'is-have-trigger': this.calcIsShowTrigger(),
           'is-active': pickerVisible,

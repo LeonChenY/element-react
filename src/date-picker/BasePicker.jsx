@@ -68,7 +68,8 @@ export default class BasePicker extends Component {
         PropTypes.instanceOf(Date),
         PropTypes.arrayOf(PropTypes.instanceOf(Date))
       ]),
-      dir: PropTypes.string
+      dir: PropTypes.string,
+      error: PropTypes.bool
     }
   }
 
@@ -78,7 +79,8 @@ export default class BasePicker extends Component {
       // (thisReactElement)=>Unit
       onFocus() { },
       onBlur() { },
-      dir: 'ltr'
+      dir: 'ltr',
+      error: false
     }
   }
 
@@ -272,7 +274,7 @@ export default class BasePicker extends Component {
   }
 
   render() {
-    const { isReadOnly, placeholder, isDisabled, className, dir } = this.props;
+    const { isReadOnly, placeholder, isDisabled, className, dir, error } = this.props;
     const { pickerVisible, value, text, isShowClose } = this.state;
 
     const createIconSlot = () => {
@@ -329,6 +331,7 @@ export default class BasePicker extends Component {
     return (
       <span
         dir={dir}
+        error={error}
         className={this.classNames('el-date-editor', className, {
           'is-have-trigger': this.calcIsShowTrigger(),
           'is-active': pickerVisible,
