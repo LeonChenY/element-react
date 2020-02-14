@@ -144,6 +144,10 @@ render() {
       onChange={this.handleUpdate.bind(this)}
       placeholder="选择时间"
       value={this.state.value}
+      onClearClick={(e) => {
+        console.log(e);
+        console.log('clear icon click:');
+      }}
       />
   )
 }

@@ -62,6 +62,7 @@ export default class BasePicker extends Component {
       onFocus: PropTypes.func,
       onBlur: PropTypes.func,
       // (Date|Date[]|null)=>(), null when click on clear icon
+      onClearClick: PropTypes.func,
       onChange: PropTypes.func,
       // time select pannel:
       value: PropTypes.oneOfType([
@@ -259,11 +260,14 @@ export default class BasePicker extends Component {
     }
   }
 
-  handleClickIcon() {
+  handleClickIcon(e) {
     const { isReadOnly, isDisabled } = this.props
     const { text } = this.state
 
     if (isReadOnly || isDisabled) return
+
+    this.props.onClearClick && this.props.onClearClick(e);
+
     if (!text) {
       this.togglePickerVisible()
     } else {
