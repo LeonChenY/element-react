@@ -70,7 +70,8 @@ export default class BasePicker extends Component {
         PropTypes.arrayOf(PropTypes.instanceOf(Date))
       ]),
       dir: PropTypes.string,
-      error: PropTypes.bool
+      error: PropTypes.bool,
+      showCloseIcon: PropTypes.bool
     }
   }
 
@@ -81,7 +82,8 @@ export default class BasePicker extends Component {
       onFocus() { },
       onBlur() { },
       dir: 'ltr',
-      error: false
+      error: false,
+      showCloseIcon: true
     }
   }
 
@@ -261,10 +263,12 @@ export default class BasePicker extends Component {
   }
 
   handleClickIcon(e) {
-    const { isReadOnly, isDisabled } = this.props
+    const { isReadOnly, isDisabled, showCloseIcon } = this.props
     const { text } = this.state
 
     if (isReadOnly || isDisabled) return
+
+    if (!showCloseIcon) return
 
     this.props.onClearClick && this.props.onClearClick(e);
 
@@ -278,12 +282,12 @@ export default class BasePicker extends Component {
   }
 
   render() {
-    const { isReadOnly, placeholder, isDisabled, className, dir, error } = this.props;
+    const { isReadOnly, placeholder, isDisabled, className, dir, error, showCloseIcon } = this.props;
     const { pickerVisible, value, text, isShowClose } = this.state;
 
     const createIconSlot = () => {
       if (this.calcIsShowTrigger()) {
-        const cls = isShowClose ? 'el-icon-close' : this.triggerClass()
+        const cls = (isShowClose && showCloseIcon) ? 'el-icon-close' : this.triggerClass()
         return (
           <i
             className={this.classNames('el-input__icon', cls)}
