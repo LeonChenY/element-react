@@ -262,7 +262,7 @@ export default class BasePicker extends Component {
     }
   }
 
-  handleClickIcon(e) {
+  handleClickIcon(e: SyntheticEvent<any>) {
     const { isReadOnly, isDisabled, showCloseIcon } = this.props
     const { text } = this.state
 

@@ -65,11 +65,13 @@ var BasePicker = function (_Component) {
         onFocus: PropTypes.func,
         onBlur: PropTypes.func,
         // (Date|Date[]|null)=>(), null when click on clear icon
+        onClearClick: PropTypes.func,
         onChange: PropTypes.func,
         // time select pannel:
         value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.arrayOf(PropTypes.instanceOf(Date))]),
         dir: PropTypes.string,
-        error: PropTypes.bool
+        error: PropTypes.bool,
+        showCloseIcon: PropTypes.bool
       };
     }
   }, {
@@ -82,7 +84,8 @@ var BasePicker = function (_Component) {
         onBlur: function onBlur() {},
 
         dir: 'ltr',
-        error: false
+        error: false,
+        showCloseIcon: true
       };
     }
   }]);
@@ -276,14 +279,20 @@ var BasePicker = function (_Component) {
     }
   };
 
-  BasePicker.prototype.handleClickIcon = function handleClickIcon() {
+  BasePicker.prototype.handleClickIcon = function handleClickIcon(e) {
     var _props = this.props,
         isReadOnly = _props.isReadOnly,
-        isDisabled = _props.isDisabled;
+        isDisabled = _props.isDisabled,
+        showCloseIcon = _props.showCloseIcon;
     var text = this.state.text;
 
 
     if (isReadOnly || isDisabled) return;
+
+    if (!showCloseIcon) return;
+
+    this.props.onClearClick && this.props.onClearClick(e);
+
     if (!text) {
       this.togglePickerVisible();
     } else {
@@ -302,7 +311,8 @@ var BasePicker = function (_Component) {
         isDisabled = _props2.isDisabled,
         className = _props2.className,
         dir = _props2.dir,
-        error = _props2.error;
+        error = _props2.error,
+        showCloseIcon = _props2.showCloseIcon;
     var _state2 = this.state,
         pickerVisible = _state2.pickerVisible,
         value = _state2.value,
@@ -312,7 +322,7 @@ var BasePicker = function (_Component) {
 
     var createIconSlot = function createIconSlot() {
       if (_this3.calcIsShowTrigger()) {
-        var cls = isShowClose ? 'el-icon-close' : _this3.triggerClass();
+        var cls = isShowClose && showCloseIcon ? 'el-icon-close' : _this3.triggerClass();
         return React.createElement('i', {
           className: _this3.classNames('el-input__icon', cls),
           onClick: _this3.handleClickIcon.bind(_this3),
