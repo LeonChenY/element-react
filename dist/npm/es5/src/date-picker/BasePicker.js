@@ -115,7 +115,8 @@ var BasePicker = function (_Component) {
         value: _libs.PropTypes.oneOfType([_libs.PropTypes.instanceOf(Date), _libs.PropTypes.arrayOf(_libs.PropTypes.instanceOf(Date))]),
         dir: _libs.PropTypes.string,
         error: _libs.PropTypes.bool,
-        showCloseIcon: _libs.PropTypes.bool
+        isAlwaysShowCloseIcon: _libs.PropTypes.bool, // 控制是否一直显示关闭按钮,默认值false，不是一直显示关闭按钮
+        disabledClose: _libs.PropTypes.bool // 控制时间选择关闭按钮是否禁用,默认值为false，不禁用
       };
     }
   }, {
@@ -129,7 +130,8 @@ var BasePicker = function (_Component) {
 
         dir: 'ltr',
         error: false,
-        showCloseIcon: true
+        isAlwaysShowCloseIcon: false,
+        disabledClose: false
       };
     }
   }]);
@@ -346,15 +348,25 @@ var BasePicker = function (_Component) {
       var _props = this.props,
           isReadOnly = _props.isReadOnly,
           isDisabled = _props.isDisabled,
-          showCloseIcon = _props.showCloseIcon;
+          isAlwaysShowCloseIcon = _props.isAlwaysShowCloseIcon,
+          disabledClose = _props.disabledClose;
       var text = this.state.text;
 
 
       if (isReadOnly || isDisabled) return;
 
-      if (!showCloseIcon) return;
+      if (disabledClose) {
+        return;
+      }
 
       this.props.onClearClick && this.props.onClearClick(e);
+
+      if (isAlwaysShowCloseIcon) {
+        this.setState({ text: '', value: null, pickerVisible: false });
+        this.props.onChange(null);
+        this.context.form && this.context.form.onFieldChange();
+        return;
+      }
 
       if (!text) {
         this.togglePickerVisible();
@@ -376,7 +388,8 @@ var BasePicker = function (_Component) {
           className = _props2.className,
           dir = _props2.dir,
           error = _props2.error,
-          showCloseIcon = _props2.showCloseIcon;
+          isAlwaysShowCloseIcon = _props2.isAlwaysShowCloseIcon,
+          disabledClose = _props2.disabledClose;
       var _state2 = this.state,
           pickerVisible = _state2.pickerVisible,
           value = _state2.value,
@@ -386,7 +399,9 @@ var BasePicker = function (_Component) {
 
       var createIconSlot = function createIconSlot() {
         if (_this3.calcIsShowTrigger()) {
-          var cls = isShowClose && showCloseIcon ? 'el-icon-close' : _this3.triggerClass();
+
+          var cls = isAlwaysShowCloseIcon ? 'el-icon-close' : isShowClose && !disabledClose ? 'el-icon-close' : _this3.triggerClass();
+
           return _react2.default.createElement('i', {
             className: _this3.classNames('el-input__icon', cls),
             onClick: _this3.handleClickIcon.bind(_this3),
