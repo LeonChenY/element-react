@@ -139,16 +139,45 @@ handleUpdate(value) {
 
 render() {
   return (
+    <div>
     <TimeRangePicker
-      pickerWidth={300}
-      onChange={this.handleUpdate.bind(this)}
-      placeholder="选择时间"
-      value={this.state.value}
-      onClearClick={(e) => {
-        console.log(e);
-        console.log('clear icon click:');
-      }}
+        pickerWidth={300}
+        onChange={this.handleUpdate.bind(this)}
+        placeholder="选择时间"
+        value={this.state.value}
+        disabledClose={true}
+        onClearClick={(e) => {
+          console.log(e);
+          console.log('clear icon click:');
+        }}
       />
+
+      <TimeRangePicker
+        pickerWidth={300}
+        onChange={this.handleUpdate.bind(this)}
+        placeholder="选择时间"
+        value={this.state.value}
+        disabledClose={true}
+        onClearClick={(e) => {
+          console.log(e);
+          console.log('clear icon click:');
+        }}
+      />
+
+      <TimeRangePicker
+        pickerWidth={300}
+        onChange={this.handleUpdate.bind(this)}
+        placeholder="选择时间"
+        value={this.state.value}
+        disabledClose={false}
+        isAlwaysShowCloseIcon={true}
+        onClearClick={(e) => {
+          console.log(e);
+          console.log('clear icon click:');
+        }}
+      />
+    </div>
+    
   )
 }
 ```

@@ -71,7 +71,8 @@ export default class BasePicker extends Component {
       ]),
       dir: PropTypes.string,
       error: PropTypes.bool,
-      showCloseIcon: PropTypes.bool
+      isAlwaysShowCloseIcon: PropTypes.bool,// 控制是否一直显示关闭按钮,默认值false，不是一直显示关闭按钮
+      disabledClose: PropTypes.bool// 控制时间选择关闭按钮是否禁用,默认值为false，不禁用
     }
   }
 
@@ -83,7 +84,8 @@ export default class BasePicker extends Component {
       onBlur() { },
       dir: 'ltr',
       error: false,
-      showCloseIcon: true
+      isAlwaysShowCloseIcon: false,
+      disabledClose: false
     }
   }
 
@@ -263,14 +265,23 @@ export default class BasePicker extends Component {
   }
 
   handleClickIcon(e: SyntheticEvent<any>) {
-    const { isReadOnly, isDisabled, showCloseIcon } = this.props
+    const { isReadOnly, isDisabled, isAlwaysShowCloseIcon, disabledClose } = this.props
     const { text } = this.state
 
     if (isReadOnly || isDisabled) return
 
-    if (!showCloseIcon) return
+    if (disabledClose) {
+      return;
+    }
 
     this.props.onClearClick && this.props.onClearClick(e);
+
+    if (isAlwaysShowCloseIcon) {
+      this.setState({ text: '', value: null, pickerVisible: false })
+      this.props.onChange(null)
+      this.context.form && this.context.form.onFieldChange();
+      return;
+    }
 
     if (!text) {
       this.togglePickerVisible()
@@ -282,12 +293,14 @@ export default class BasePicker extends Component {
   }
 
   render() {
-    const { isReadOnly, placeholder, isDisabled, className, dir, error, showCloseIcon } = this.props;
+    const { isReadOnly, placeholder, isDisabled, className, dir, error, isAlwaysShowCloseIcon, disabledClose } = this.props;
     const { pickerVisible, value, text, isShowClose } = this.state;
 
     const createIconSlot = () => {
       if (this.calcIsShowTrigger()) {
-        const cls = (isShowClose && showCloseIcon) ? 'el-icon-close' : this.triggerClass()
+
+        const cls = isAlwaysShowCloseIcon ? 'el-icon-close' : (isShowClose && !disabledClose) ? 'el-icon-close' : this.triggerClass();
+
         return (
           <i
             className={this.classNames('el-input__icon', cls)}
