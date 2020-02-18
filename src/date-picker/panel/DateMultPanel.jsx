@@ -66,25 +66,26 @@ export default class DateMultPanel extends PopperBase {
             currentView,
             timePickerVisible: false,
             pickerWidth: 0,
-            date: [new Date()] // current view's date
+            dateList: [new Date()],
+            date: new Date() // current view's date
         }
 
         if (props.valueList) {
-            this.state.date = props.valueList
+            this.state.dateList = props.valueList
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        let date = [new Date()]
+        let dateList = [new Date()]
         if (nextProps.valueList) {
-            date = valueList
+            dateList = valueList
         }
 
-        this.setState({ date })
+        this.setState({ dateList })
     }
 
     resetDate() {
-        this.date = [new Date()]
+        // this.date = [new Date()]
     }
 
     showMonthPicker() {
@@ -98,14 +99,14 @@ export default class DateMultPanel extends PopperBase {
     prevMonth() {
         this.updateState(() => {
             const { date } = this.state
-            const { month, year } = deconstructDate(date[0])
-            date[0].setMonth(month, 1)
+            const { month, year } = deconstructDate(date)
+            date.setMonth(month, 1)
 
             if (month == 0) {
-                date[0].setFullYear(year - 1)
-                date[0].setMonth(11)
+                date.setFullYear(year - 1)
+                date.setMonth(11)
             } else {
-                date[0].setMonth(month - 1)
+                date.setMonth(month - 1)
             }
         })
     }
@@ -113,14 +114,14 @@ export default class DateMultPanel extends PopperBase {
     nextMonth() {
         this.updateState(() => {
             const { date } = this.state
-            const { month, year } = deconstructDate(date[0])
-            date[0].setMonth(month, 1)
+            const { month, year } = deconstructDate(date)
+            date.setMonth(month, 1)
 
             if (month == 11) {
-                date[0].setFullYear(year + 1)
-                date[0].setMonth(0)
+                date.setFullYear(year + 1)
+                date.setMonth(0)
             } else {
-                date[0].setMonth(month + 1)
+                date.setMonth(month + 1)
             }
         })
     }
@@ -128,12 +129,12 @@ export default class DateMultPanel extends PopperBase {
     nextYear() {
         this.updateState(() => {
             const { date, currentView } = this.state
-            const { year } = deconstructDate(date[0])
+            const { year } = deconstructDate(date)
 
             if (currentView === 'year') {
-                date[0].setFullYear(year + 10)
+                date.setFullYear(year + 10)
             } else {
-                date[0].setFullYear(year + 1)
+                date.setFullYear(year + 1)
             }
         })
     }
@@ -146,12 +147,12 @@ export default class DateMultPanel extends PopperBase {
     prevYear() {
         this.updateState(() => {
             const { date, currentView } = this.state
-            const { year } = deconstructDate(date[0])
+            const { year } = deconstructDate(date)
 
             if (currentView === 'year') {
-                date[0].setFullYear(year - 10)
+                date.setFullYear(year - 10)
             } else {
-                date[0].setFullYear(year - 1)
+                date.setFullYear(year - 1)
             }
         })
     }
@@ -176,7 +177,7 @@ export default class DateMultPanel extends PopperBase {
         this.updateState(state => {
             const { date } = state
             const { selectionMode } = this.props
-            const { year } = deconstructDate(date[0])
+            const { year } = deconstructDate(date)
 
             if (selectionMode !== SELECTION_MODES.MONTH) {
                 date.setMonth(month)
@@ -192,7 +193,7 @@ export default class DateMultPanel extends PopperBase {
 
     handleDatePick(value) {
         this.updateState(state => {
-            const { date } = state
+            const { dateList } = state
             const { selectionMode, isShowTime, onPick } = this.props
             const pdate = value.date
             if (selectionMode === SELECTION_MODES.DAY) {
@@ -201,9 +202,7 @@ export default class DateMultPanel extends PopperBase {
                     onPick(new Date(pdate.getTime()), true)
                 }
                 // 多选所以是 push
-                date.push(new Date(pdate));
-                // date.setTime(pdate.getTime())
-                console.log('this.state.date:', this.state.date);
+                dateList.push(new Date(pdate));
             } else if (selectionMode === SELECTION_MODES.WEEK) {
                 onPick(pdate)
             }
@@ -231,7 +230,7 @@ export default class DateMultPanel extends PopperBase {
     }
 
     confirm() {
-        this.props.onPick(new Date(this.state.date.getTime()))
+        this.props.onPick(this.state.dateList);
     }
 
     resetView() {
@@ -250,7 +249,7 @@ export default class DateMultPanel extends PopperBase {
 
     yearLabel() {
         const { currentView, date } = this.state
-        const { year } = deconstructDate(date[0])
+        const { year } = deconstructDate(date)
         const yearTranslation = Locale.t('el.datepicker.year')
         if (currentView === 'year') {
             const startYear = Math.floor(year / 10) * 10
@@ -318,15 +317,18 @@ export default class DateMultPanel extends PopperBase {
 
     // end: ------ public methods
     _pickerContent() {
-        const { value, selectionMode, disabledDate, showWeekNumber, firstDayOfWeek, dir } = this.props
-        const { date } = this.state
+        const { value, selectionMode, disabledDate, showWeekNumber, firstDayOfWeek, dir, isMultiple } = this.props
+        const { date, dateList } = this.state
         const { currentView } = this.state
         let result = null
+
+        console.log('渲染面板的value 和 date:', value, date);
 
         result = (<DateTable
             dir={dir}
             onPick={this.handleDatePick.bind(this)}
-            date={date}
+            date={dateList}
+            nowDate={isMultiple ? date : null}
             value={value}
             selectionMode={selectionMode}
             disabledDate={disabledDate}
@@ -341,7 +343,8 @@ export default class DateMultPanel extends PopperBase {
     render() {
         const { isShowTime, shortcuts, dir } = this.props
         const { currentView, date, pickerWidth, timePickerVisible } = this.state
-        const { month } = deconstructDate(date[0])
+        console.log('deconstructDate', date);
+        const { month } = deconstructDate(date)
         const t = Locale.t
 
         return (
@@ -479,21 +482,17 @@ export default class DateMultPanel extends PopperBase {
                     </div>
                 </div>
 
-                {
-                    isShowTime && currentView === PICKER_VIEWS.DATE && (
-                        <div
-                            className="el-picker-panel__footer">
-                            <a
-                                href="JavaScript:"
-                                className="el-picker-panel__link-btn"
-                                onClick={this.changeToNow.bind(this)}>{t('el.datepicker.now')}</a>
-                            <button
-                                type="button"
-                                className="el-picker-panel__btn"
-                                onClick={() => this.confirm()}>{t('el.datepicker.confirm')}</button>
-                        </div>
-                    )
-                }
+                <div
+                    className="el-picker-panel__footer">
+                    {/* <a
+                        href="JavaScript:"
+                        className="el-picker-panel__link-btn"
+                        onClick={this.changeToNow.bind(this)}>{t('el.datepicker.now')}</a> */}
+                    <button
+                        type="button"
+                        className="el-picker-panel__btn"
+                        onClick={() => this.confirm()}>{t('el.datepicker.confirm')}</button>
+                </div>
             </div>
         )
     }

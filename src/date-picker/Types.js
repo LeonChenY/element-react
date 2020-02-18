@@ -19,7 +19,8 @@ export type DateTableProps = {
   rangeState: ?{endDate: Date, selecting: boolean },
   firstDayOfWeek: number,
   dir: ?string,
-  isMultiple: bool
+  isMultiple: bool,
+  nowDate: ?ValidDateType // 多选时用于指示当前时间
 }
 
 export type MonthTableProps = {

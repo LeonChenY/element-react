@@ -13,7 +13,7 @@
 constructor(props) {
   super(props)
   this.state = {
-    valueList: [new Date()]
+    valueList: [new Date(), new Date('2020-02-19')]
   }
 }
 

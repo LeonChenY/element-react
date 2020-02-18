@@ -134,12 +134,13 @@ export default class BasePicker extends Component {
     // 要区分是多选还是单选,根据
     if (this.props.isMultiple) {
       const { valueList } = this.props;
-      // valueList.push(value);
+      const list = valueList.slice();
+      list.push(value);
 
       this.setState({
         pickerVisible: isKeepPannel,
         valueList,
-        text: valueList.toString()
+        text: list.toString()
       });
 
       this.props.onChange(value, valueList);
