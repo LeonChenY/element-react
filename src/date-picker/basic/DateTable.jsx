@@ -60,10 +60,10 @@ export default class DateTable extends Component {
 	}
 
 	getRows() {
-		const { date, disabledDate, showWeekNumber, minDate, maxDate, selectionMode, firstDayOfWeek, isMultiple } = this.props
+		const { date, disabledDate, showWeekNumber, minDate, maxDate, selectionMode, firstDayOfWeek, isMultiple, nowDate } = this.props
 		const { tableRows } = this.state
 
-		const ndate = new Date(isMultiple ? date[0].getTime() : date.getTime());
+		const ndate = new Date(isMultiple ? nowDate.getTime() : date.getTime());
 		let day = getFirstDayOfMonth(ndate); // day of first day
 		const dateCountOfMonth = getDayCountOfMonth(ndate.getFullYear(), ndate.getMonth());
 		// dates count in december is always 31, so offset year is not neccessary

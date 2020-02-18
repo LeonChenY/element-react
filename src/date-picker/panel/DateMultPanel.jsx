@@ -123,6 +123,7 @@ export default class DateMultPanel extends PopperBase {
             } else {
                 date.setMonth(month + 1)
             }
+            console.log('点击下个月得值:', date);
         })
     }
 
@@ -328,7 +329,7 @@ export default class DateMultPanel extends PopperBase {
             dir={dir}
             onPick={this.handleDatePick.bind(this)}
             date={dateList}
-            nowDate={isMultiple ? date : null}
+            nowDate={date}
             value={value}
             selectionMode={selectionMode}
             disabledDate={disabledDate}
