@@ -18,7 +18,8 @@ export type DateTableProps = {
   onChangeRange: ?(any: any)=>void,
   rangeState: ?{endDate: Date, selecting: boolean },
   firstDayOfWeek: number,
-  dir: ?string
+  dir: ?string,
+  isMultiple: bool
 }
 
 export type MonthTableProps = {
@@ -144,7 +145,8 @@ export type DatePickerProps =  BasePickerProps & {
   getPopperRefElement: ?GetPopperRefElement,
   popperMixinOption: ?PopperMixinOption,
   firstDayofweek: ?number,
-  dir: ?string
+  dir: ?string,
+  isMultiple: bool
 }
 
 export type DateRangePickerProps = BasePickerProps & {

@@ -12,23 +12,28 @@
 
 constructor(props) {
   super(props)
-  this.state = {}
+  this.state = {
+    valueList: [new Date()]
+  }
 }
 
 render() {
-  const {value1, value2} = this.state
+  const {value1, value2, valueList} = this.state
 
   return (
     <div className="source">
       <div className="block">
         <span className="demonstration">默认</span>
-        <DatePicker
+        <DateMultPicker
           value={value1}
+          valueList={valueList}
           placeholder="选择日期"
-          onChange={date=>{
-            console.debug('DatePicker1 changed: ', date)
-            this.setState({value1: date})
+          onChange={(date, dateList)=>{
+            console.log('当前选择数据：', date)
+            console.log('选择列表：',dateList);
+            this.setState({value1: date, valueList: dateList});
           }}
+          isMultiple={true}
           disabledDate={time=>time.getTime() < Date.now() - 8.64e7}
           />
       </div>

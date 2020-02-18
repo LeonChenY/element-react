@@ -69,6 +69,8 @@ export default class BasePicker extends Component {
         PropTypes.instanceOf(Date),
         PropTypes.arrayOf(PropTypes.instanceOf(Date))
       ]),
+      valueList: PropTypes.array,// 多选
+      isMultiple: PropTypes.bool, // 是否开启多选
       dir: PropTypes.string,
       error: PropTypes.bool,
       isAlwaysShowCloseIcon: PropTypes.bool,// 控制是否一直显示关闭按钮,默认值false，不是一直显示关闭按钮
@@ -79,13 +81,16 @@ export default class BasePicker extends Component {
   static get defaultProps() {
     return {
       value: new Date(),
+      valueList: [new Date()],
+      isMultiple: false,
       // (thisReactElement)=>Unit
       onFocus() { },
       onBlur() { },
       dir: 'ltr',
       error: false,
       isAlwaysShowCloseIcon: false,
-      disabledClose: false
+      disabledClose: false,
+      isMultiple: false
     }
   }
 
@@ -125,16 +130,32 @@ export default class BasePicker extends Component {
    * @param isKeepPannel: boolean = false
    */
   onPicked(value: ValidDateType, isKeepPannel: boolean = false) {//only change input value on picked triggered
-    let hasChanged = !valueEquals(this.state.value, value)
-    this.setState({
-      pickerVisible: isKeepPannel,
-      value,
-      text: this.dateToStr(value)
-    })
 
-    if (hasChanged) {
-      this.props.onChange(value);
+    // 要区分是多选还是单选,根据
+    if (this.props.isMultiple) {
+      const { valueList } = this.props;
+      // valueList.push(value);
+
+      this.setState({
+        pickerVisible: isKeepPannel,
+        valueList,
+        text: valueList.toString()
+      });
+
+      this.props.onChange(value, valueList);
       this.context.form && this.context.form.onFieldChange();
+    } else {
+      let hasChanged = !valueEquals(this.state.value, value)
+      this.setState({
+        pickerVisible: isKeepPannel,
+        value,
+        text: this.dateToStr(value)
+      })
+
+      if (hasChanged) {
+        this.props.onChange(value);
+        this.context.form && this.context.form.onFieldChange();
+      }
     }
   }
 
@@ -168,12 +189,20 @@ export default class BasePicker extends Component {
 
   propsToState(props: BasePickerProps) {
     const state = {}
-    if (this.isDateValid(props.value)) {
-      state.text = this.dateToStr(props.value)
-      state.value = props.value
+
+    // 分情况：多选或单选
+    if (props.isMultiple) {
+      // 多选就是一个Date的list
+      state.valueList = props.valueList
+
     } else {
-      state.text = ''
-      state.value = null
+      if (this.isDateValid(props.value)) {
+        state.text = this.dateToStr(props.value)
+        state.value = props.value
+      } else {
+        state.text = ''
+        state.value = null
+      }
     }
 
     // if (state.value == null) {

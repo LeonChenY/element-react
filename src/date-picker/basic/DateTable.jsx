@@ -55,15 +55,15 @@ export default class DateTable extends Component {
 
 
 	getStartDate() {
-		const ds = deconstructDate(this.props.date)
+		const ds = deconstructDate(this.props.isMultiple ? this.props.date[0] : this.props.date)
 		return getStartDateOfMonth(ds.year, ds.month, this.getOffsetWeek());
 	}
 
 	getRows() {
-		const { date, disabledDate, showWeekNumber, minDate, maxDate, selectionMode, firstDayOfWeek } = this.props
+		const { date, disabledDate, showWeekNumber, minDate, maxDate, selectionMode, firstDayOfWeek, isMultiple } = this.props
 		const { tableRows } = this.state
 
-		const ndate = new Date(date.getTime());
+		const ndate = new Date(isMultiple ? date[0].getTime() : date.getTime());
 		let day = getFirstDayOfMonth(ndate); // day of first day
 		const dateCountOfMonth = getDayCountOfMonth(ndate.getFullYear(), ndate.getMonth());
 		// dates count in december is always 31, so offset year is not neccessary
@@ -169,9 +169,30 @@ export default class DateTable extends Component {
 		return rows;
 	}
 
+	// 检测一个日期值是否存在于一个 dateList
+	checkListHaveDate(date, currCell, isMultiple) {
+		let have = false;
+		if (isMultiple) {
+			date.map(dateItem => {
+				if (dateItem.getDate() === +currCell.text) {
+					have = true;
+				}
+			});
+		} else {
+			have = date.getDate() === +currCell.text;
+		}
+
+		return have;
+	}
+
 	// calc classnames for cell
 	getCellClasses(cell: any) {
-		const { selectionMode, date } = this.props
+		const { selectionMode, date, isMultiple } = this.props
+
+		const currDate = isMultiple ? date[0] : date;
+
+		// console.log('渲染时间选择table的cell:', date);
+		// console.log('cell', cell);
 
 		let classes = [];
 		if ((cell.type === 'normal' || cell.type === 'today') && !cell.disabled) {
@@ -187,7 +208,7 @@ export default class DateTable extends Component {
 			&& (cell.type === 'normal' || cell.type === 'today')
 			// following code only highlight date that is the actuall value of the datepicker, but actually it should
 			// be the temp that value use selected
-			&& date.getDate() === +cell.text) {
+			&& this.checkListHaveDate(date, cell, isMultiple)) {
 			// && value
 			// && value.getFullYear() === date.getFullYear()
 			// && value.getMonth() === date.getMonth()
@@ -215,7 +236,7 @@ export default class DateTable extends Component {
 	}
 
 	getMarkedRangeRows(): any[] {
-		const { showWeekNumber, minDate, selectionMode, rangeState } = this.props
+		const { showWeekNumber, minDate, selectionMode, rangeState, isMultiple } = this.props
 		const rows = this.getRows();
 		if (!(selectionMode === SELECTION_MODES.RANGE && rangeState.selecting && rangeState.endDate instanceof Date)) return rows;
 
@@ -286,8 +307,11 @@ export default class DateTable extends Component {
 		if (target.tagName !== 'TD') return;
 		if (hasClass(target, 'disabled') || hasClass(target, 'week')) return;
 
-		const { selectionMode, date, onPick, minDate, maxDate, rangeState, } = this.props
-		const { year, month } = deconstructDate(date)
+		const { selectionMode, date, onPick, minDate, maxDate, rangeState, isMultiple } = this.props
+
+		const lastDate = isMultiple ? date[date.length - 1] : date;
+
+		const { year, month } = deconstructDate(lastDate)
 
 		if (selectionMode === 'week') {
 			target = target.parentNode.cells[1];
@@ -340,6 +364,7 @@ export default class DateTable extends Component {
 
 			}
 		} else if (selectionMode === SELECTION_MODES.DAY || selectionMode === SELECTION_MODES.WEEK) {
+			// 选择单日 或者 周 执行这里的逻辑
 			onPick({ date: newDate })
 		}
 	}
@@ -435,5 +460,6 @@ DateTable.propTypes = {
 
 DateTable.defaultProps = {
 	selectionMode: 'day',
-	firstDayOfWeek: 0
+	firstDayOfWeek: 0,
+	isMultiple: false
 }
