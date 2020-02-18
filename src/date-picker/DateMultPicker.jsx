@@ -19,7 +19,7 @@ export default class DateMultPicker extends BasePicker {
     }
 
     static get defaultProps() {
-        let result: any = Object.assign({}, BasePicker.defaultProps)
+        let result: any = Object.assign({}, BasePicker.defaultProps, { isMultiple: true })
         return result;
     }
 

@@ -13,7 +13,7 @@
 constructor(props) {
   super(props)
   this.state = {
-    valueList: [new Date(), new Date('2020-02-19')]
+    valueList: []
   }
 }
 
@@ -25,17 +25,16 @@ render() {
       <div className="block">
         <span className="demonstration">默认</span>
         <DateMultPicker
-          value={value1}
           valueList={valueList}
           placeholder="选择日期"
           onChange={(date, dateList)=>{
-            console.log('当前选择数据：', date)
+            console.log('当前click选择的日期:', date);
             console.log('选择列表：',dateList);
-            this.setState({value1: date, valueList: dateList});
+            this.setState({valueList: dateList});
           }}
-          isMultiple={true}
           disabledDate={time=>time.getTime() < Date.now() - 8.64e7}
           />
+          <div>选择的日期：{JSON.stringify(this.state.valueList)}</div>
       </div>
       <div className="block">
         <span className="demonstration">带快捷选项</span>

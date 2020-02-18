@@ -123,7 +123,6 @@ export default class DateMultPanel extends PopperBase {
             } else {
                 date.setMonth(month + 1)
             }
-            console.log('点击下个月得值:', date);
         })
     }
 
@@ -323,8 +322,6 @@ export default class DateMultPanel extends PopperBase {
         const { currentView } = this.state
         let result = null
 
-        console.log('渲染面板的value 和 date:', value, date);
-
         result = (<DateTable
             dir={dir}
             onPick={this.handleDatePick.bind(this)}
@@ -344,7 +341,6 @@ export default class DateMultPanel extends PopperBase {
     render() {
         const { isShowTime, shortcuts, dir } = this.props
         const { currentView, date, pickerWidth, timePickerVisible } = this.state
-        console.log('deconstructDate', date);
         const { month } = deconstructDate(date)
         const t = Locale.t
 
@@ -503,5 +499,5 @@ DateMultPanel.defaultProps = {
     isShowTime: false,
     selectionMode: SELECTION_MODES.DAY,
     dir: 'ltr',
-    isMultiple: false
+    isMultiple: true
 }

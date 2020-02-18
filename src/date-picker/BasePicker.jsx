@@ -90,7 +90,7 @@ export default class BasePicker extends Component {
       error: false,
       isAlwaysShowCloseIcon: false,
       disabledClose: false,
-      isMultiple: false
+      valueList: []
     }
   }
 
@@ -134,13 +134,15 @@ export default class BasePicker extends Component {
     // 要区分是多选还是单选,根据
     if (this.props.isMultiple) {
       const { valueList } = this.props;
-      const list = valueList.slice();
+      const list = valueList ? valueList.slice() : [];
       list.push(value);
+
+      const txtList = list.map(item => this.dateToStr(item));
 
       this.setState({
         pickerVisible: isKeepPannel,
         valueList,
-        text: list.toString()
+        text: txtList.join(',')
       });
 
       this.props.onChange(value, valueList);

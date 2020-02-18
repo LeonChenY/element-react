@@ -196,9 +196,6 @@ export default class DateTable extends Component {
 
 		const currDate = isMultiple ? nowDate : date;
 
-		// console.log('渲染时间选择table的cell:', date);
-		// console.log('cell', cell);
-
 		let classes = [];
 		if ((cell.type === 'normal' || cell.type === 'today') && !cell.disabled) {
 			classes.push('available');
@@ -427,7 +424,7 @@ DateTable.propTypes = {
 	maxDate: PropTypes.instanceOf(Date),
 	selectionMode: PropTypes.oneOf(Object.keys(SELECTION_MODES).map(e => SELECTION_MODES[e])),
 	// date view model, all visual view derive from this info
-	date: PropTypes.instanceOf(Date).isRequired,
+	date: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.array]).isRequired,
 	// current date value, use picked.
 	value: PropTypes.instanceOf(Date),
 	/*
