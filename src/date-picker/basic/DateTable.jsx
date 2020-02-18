@@ -55,7 +55,7 @@ export default class DateTable extends Component {
 
 
 	getStartDate() {
-		const ds = deconstructDate(this.props.isMultiple ? this.props.date[0] : this.props.date)
+		const ds = deconstructDate(this.props.isMultiple ? this.props.nowDate : this.props.date)
 		return getStartDateOfMonth(ds.year, ds.month, this.getOffsetWeek());
 	}
 
@@ -187,9 +187,9 @@ export default class DateTable extends Component {
 
 	// calc classnames for cell
 	getCellClasses(cell: any) {
-		const { selectionMode, date, isMultiple } = this.props
+		const { selectionMode, date, isMultiple, nowDate } = this.props
 
-		const currDate = isMultiple ? date[0] : date;
+		const currDate = isMultiple ? nowDate : date;
 
 		// console.log('渲染时间选择table的cell:', date);
 		// console.log('cell', cell);
@@ -307,9 +307,9 @@ export default class DateTable extends Component {
 		if (target.tagName !== 'TD') return;
 		if (hasClass(target, 'disabled') || hasClass(target, 'week')) return;
 
-		const { selectionMode, date, onPick, minDate, maxDate, rangeState, isMultiple } = this.props
+		const { selectionMode, date, nowDate, onPick, minDate, maxDate, rangeState, isMultiple } = this.props
 
-		const lastDate = isMultiple ? date[date.length - 1] : date;
+		const lastDate = isMultiple ? nowDate : date;
 
 		const { year, month } = deconstructDate(lastDate)
 
