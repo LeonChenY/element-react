@@ -128,7 +128,7 @@ export default class BasePicker extends Component {
    * @param value: Date|Date[]|null
    * @param isKeepPannel: boolean = false
    */
-  onPicked(value: ValidDateType, isKeepPannel: boolean = false, valueList: ?ValidDateType) {//only change input value on picked triggered
+  onPicked(value: ValidDateType, isKeepPannel: boolean = false, valueList: ?any) {//only change input value on picked triggered
 
     // 要区分是多选还是单选,根据
     if (this.props.isMultiple) {

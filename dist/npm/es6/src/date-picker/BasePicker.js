@@ -80,11 +80,8 @@ var BasePicker = function (_Component) {
   }, {
     key: 'defaultProps',
     get: function get() {
-      var _ref;
-
-      return _ref = {
+      return {
         value: new Date(),
-        valueList: [new Date()],
         isMultiple: false,
         // (thisReactElement)=>Unit
         onFocus: function onFocus() {},
@@ -93,8 +90,9 @@ var BasePicker = function (_Component) {
         dir: 'ltr',
         error: false,
         isAlwaysShowCloseIcon: false,
-        disabledClose: false
-      }, _ref['valueList'] = [], _ref;
+        disabledClose: false,
+        valueList: []
+      };
     }
   }]);
 
@@ -147,14 +145,12 @@ var BasePicker = function (_Component) {
     var _this2 = this;
 
     var isKeepPannel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var valueList = arguments[2];
     //only change input value on picked triggered
 
     // 要区分是多选还是单选,根据
     if (this.props.isMultiple) {
-      var valueList = this.props.valueList;
-
       var list = valueList ? valueList.slice() : [];
-      list.push(value);
 
       var txtList = list.map(function (item) {
         return _this2.dateToStr(item);
@@ -162,7 +158,7 @@ var BasePicker = function (_Component) {
 
       this.setState({
         pickerVisible: isKeepPannel,
-        valueList: valueList,
+        valueList: list,
         text: txtList.join(',')
       });
 

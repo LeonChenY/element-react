@@ -300,12 +300,24 @@ var DateMultPanel = function (_PopperBase) {
 
                 var pdate = value.date;
                 if (selectionMode === _utils.SELECTION_MODES.DAY) {
-                    if (!isShowTime) {
-                        // 多选点击，onPick 第二个参数保持true，选择面板保持显示
-                        onPick(new Date(pdate.getTime()), true);
+                    // 做去重操作,无则加上,有则去除
+                    var isExist = false;
+                    var existIndex = -1;
+
+                    dateList.map(function (dItem, dIndex) {
+                        if (dItem.getFullYear() === pdate.getFullYear() && dItem.getMonth() === pdate.getMonth() && dItem.getDate() === pdate.getDate()) {
+                            isExist = true;
+                            existIndex = dIndex;
+                        }
+                    });
+
+                    if (!isExist) {
+                        dateList.push(new Date(pdate));
+                    } else {
+                        dateList.splice(existIndex, 1);
                     }
-                    // 多选所以是 push
-                    dateList.push(new Date(pdate));
+
+                    onPick(pdate, true, dateList);
                 } else if (selectionMode === _utils.SELECTION_MODES.WEEK) {
                     onPick(pdate);
                 }
@@ -340,7 +352,7 @@ var DateMultPanel = function (_PopperBase) {
     }, {
         key: 'confirm',
         value: function confirm() {
-            this.props.onPick(this.state.dateList);
+            this.props.onPick(null, false, this.state.dateList);
         }
     }, {
         key: 'resetView',
