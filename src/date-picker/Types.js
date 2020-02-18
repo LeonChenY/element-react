@@ -1,8 +1,8 @@
 // @flow
 
 export type ValidDateType = Date | Date[] | null
-export type DisableDateFunc = (date: Date, type: ?string)=>boolean
-export type Shortcut = {text: string, onClick: ()=>void}
+export type DisableDateFunc = (date: Date, type: ?string) => boolean
+export type Shortcut = { text: string, onClick: () => void }
 
 
 // ---------- basic
@@ -14,9 +14,9 @@ export type DateTableProps = {
   maxDate: ?Date,
   selectionMode: SelectionMode,
   date: Date,
-  onPick: (any: any, bool: boolean)=>void,
-  onChangeRange: ?(any: any)=>void,
-  rangeState: ?{endDate: Date, selecting: boolean },
+  onPick: (any: any, bool: boolean) => void,
+  onChangeRange: ?(any: any) => void,
+  rangeState: ?{ endDate: Date, selecting: boolean },
   firstDayOfWeek: number,
   dir: ?string,
   isMultiple: bool,
@@ -26,13 +26,13 @@ export type DateTableProps = {
 export type MonthTableProps = {
   date: Date,
   value: Date,
-  onPick: (number: number)=>void,
+  onPick: (number: number) => void,
   disabledDate: ?DisableDateFunc
 }
 
 type Range<T> = [T, Date]
 type TimeSpinnerSelectableRange = Range<any>[]
-type TimeSpinnerOnSelectRangeChange = (range: Range<number>)=>void
+type TimeSpinnerOnSelectRangeChange = (range: Range<number>) => void
 export type TimeTypes = 'hours' | 'minutes' | 'seconds'
 export type TimeSpinnerProps = {
   hours: ?number,
@@ -41,7 +41,7 @@ export type TimeSpinnerProps = {
   isShowSeconds: boolean,
   //[[datefrom, dateend]...]
   selectableRange: TimeSpinnerSelectableRange,
-  onChange: (e: {TimeTypes: number})=>void,
+  onChange: (e: { TimeTypes: number }) => void,
   onSelectRangeChange: TimeSpinnerOnSelectRangeChange,
   dir?: string
 }
@@ -49,18 +49,18 @@ export type TimeSpinnerProps = {
 export type YearTableProps = {
   value: Date,
   date: Date,
-  onPick: (number: number)=> void,
+  onPick: (number: number) => void,
   disabledDate: ?DisableDateFunc
 }
 
 // ---------- panel
 
-type GetPopperRefElement = ()=>HTMLElement;
+type GetPopperRefElement = () => HTMLElement;
 type PopperMixinOption = any;
 
 export type DatePanelProps = {
   value: ?Date,
-  onPick: (date: Date)=>void,
+  onPick: (date: Date) => void,
   isShowTime: boolean,
   showWeekNumber: boolean,
   format: ?string,
@@ -71,10 +71,10 @@ export type DatePanelProps = {
   popperMixinOption: ?PopperMixinOption,
 }
 
-type DateRange = [Date, ?Date]
+type DateRange = [Date,?Date]
 export type DateRangePanelProps = {
   value: DateRange,
-  onPick: (range?: DateRange, bool: boolean)=>void,
+  onPick: (range?: DateRange, bool: boolean) => void,
   isShowTime: boolean,
   shortcuts: ?Shortcut[],
   disabledDate: ?DisableDateFunc,
@@ -87,8 +87,8 @@ export type TimePanelProps = {
   onSelectRangeChange: ?TimeSpinnerOnSelectRangeChange,
   pickerWidth: ?number,
   currentDate: ?Date,
-  onPicked: (date?: Date, isKeepPannelOpen: boolean)=>boolean,
-  onCancel: ()=>void,
+  onPicked: (date?: Date, isKeepPannelOpen: boolean) => boolean,
+  onCancel: () => void,
   getPopperRefElement: ?GetPopperRefElement,
   popperMixinOption: ?PopperMixinOption,
   dir?: string
@@ -98,14 +98,14 @@ export type TimeRangePanelProps = {
   pickerWidth: ?number,
   currentDates: ?Range<Date>,
   onPicked: ValidDateType,
-  onCancel: ()=>void,
+  onCancel: () => void,
   format: string,
   onSelectRangeChange: ?TimeSpinnerOnSelectRangeChange,
   getPopperRefElement: ?GetPopperRefElement,
   popperMixinOption: ?PopperMixinOption,
 }
 
-type DateParser = (string: string)=>Date
+type DateParser = (string: string) => Date
 export type TimeSelectPanelProps = {
   start: ?string,
   end: ?string,
@@ -113,7 +113,7 @@ export type TimeSelectPanelProps = {
   minTime: ?string,
   maxTime: ?string,
   value: ?string,
-  onPicked: ?()=>void,
+  onPicked: ?() => void,
   dateParser: ?DateParser,
   getPopperRefElement: ?GetPopperRefElement,
   popperMixinOption: ?PopperMixinOption,
@@ -130,13 +130,15 @@ export interface BasePickerProps {
   isReadOnly: boolean,
   isDisabled: boolean,
   placeholder: ?string,
-  onFocus: ?()=>void,
-  onBlur: ?()=>void,
-  onChange: ?(type: ValidDateType)=>void,
-  value: Date | Date[]
+  onFocus: ?() => void,
+  onBlur: ?() => void,
+  onChange: ?(type: ValidDateType) => void,
+  value: Date | Date[],
+  isMultiple: bool,
+  valueList: ?Date[]
 }
 
-export type DatePickerProps =  BasePickerProps & {
+export type DatePickerProps = BasePickerProps & {
   value: ?Date,
   isShowTime: boolean,
   showWeekNumber: boolean,
