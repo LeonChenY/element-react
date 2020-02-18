@@ -279,18 +279,26 @@ export default class BasePicker extends Component {
   }
 
   handleClickOutside(evt: SyntheticEvent<any>) {
-    const { value, pickerVisible } = this.state
+    const { value, valueList, pickerVisible } = this.state
     if (!this.isInputFocus && !pickerVisible) {
       return
     }
     if (this.domRoot.contains(evt.target)) return
     if (this.pickerProxy && this.pickerProxy.contains(evt)) return
-    if (this.isDateValid(value)) {
-      this.setState({ pickerVisible: false })
-      this.props.onChange(value)
+
+    // 单选多选分开判断
+    if (this.props.isMultiple) {
+      this.setState({ pickerVisible: false });
+      this.props.onChange(value, valueList);
       this.context.form && this.context.form.onFieldChange();
     } else {
-      this.setState({ pickerVisible: false, text: this.dateToStr(value) })
+      if (this.isDateValid(value)) {
+        this.setState({ pickerVisible: false })
+        this.props.onChange(value)
+        this.context.form && this.context.form.onFieldChange();
+      } else {
+        this.setState({ pickerVisible: false, text: this.dateToStr(value) })
+      }
     }
   }
 
