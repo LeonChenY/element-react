@@ -171,10 +171,15 @@ export default class DateTable extends Component {
 
 	// 检测一个日期值是否存在于一个 dateList
 	checkListHaveDate(date, currCell, isMultiple) {
+
+		const { nowDate } = this.props;
+
+		// 多选情况下需要进行严格的时间判断
+
 		let have = false;
 		if (isMultiple) {
 			date.map(dateItem => {
-				if (dateItem.getDate() === +currCell.text) {
+				if (dateItem.getDate() === +currCell.text && dateItem.getFullYear() === nowDate.getFullYear() && dateItem.getMonth() === nowDate.getMonth()) {
 					have = true;
 				}
 			});
