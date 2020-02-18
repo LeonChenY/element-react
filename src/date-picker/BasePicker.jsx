@@ -81,7 +81,6 @@ export default class BasePicker extends Component {
   static get defaultProps() {
     return {
       value: new Date(),
-      valueList: [new Date()],
       isMultiple: false,
       // (thisReactElement)=>Unit
       onFocus() { },
@@ -129,24 +128,23 @@ export default class BasePicker extends Component {
    * @param value: Date|Date[]|null
    * @param isKeepPannel: boolean = false
    */
-  onPicked(value: ValidDateType, isKeepPannel: boolean = false) {//only change input value on picked triggered
+  onPicked(value: ValidDateType, isKeepPannel: boolean = false, valueList: ?ValidDateType) {//only change input value on picked triggered
 
     // 要区分是多选还是单选,根据
     if (this.props.isMultiple) {
-      const { valueList } = this.props;
       const list = valueList ? valueList.slice() : [];
-      list.push(value);
 
       const txtList = list.map(item => this.dateToStr(item));
 
       this.setState({
         pickerVisible: isKeepPannel,
-        valueList,
+        valueList: list,
         text: txtList.join(',')
       });
 
       this.props.onChange(value, valueList);
       this.context.form && this.context.form.onFieldChange();
+
     } else {
       let hasChanged = !valueEquals(this.state.value, value)
       this.setState({
