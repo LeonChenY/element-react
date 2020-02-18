@@ -49,6 +49,15 @@ Object.defineProperty(exports, 'DateRangePicker', {
   }
 });
 
+var _DateMultPicker = require('./DateMultPicker');
+
+Object.defineProperty(exports, 'DateMultPicker', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_DateMultPicker).default;
+  }
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {

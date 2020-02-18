@@ -69,6 +69,8 @@ var BasePicker = function (_Component) {
         onChange: PropTypes.func,
         // time select pannel:
         value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.arrayOf(PropTypes.instanceOf(Date))]),
+        valueList: PropTypes.array, // 多选
+        isMultiple: PropTypes.bool, // 是否开启多选
         dir: PropTypes.string,
         error: PropTypes.bool,
         isAlwaysShowCloseIcon: PropTypes.bool, // 控制是否一直显示关闭按钮,默认值false，不是一直显示关闭按钮
@@ -78,8 +80,12 @@ var BasePicker = function (_Component) {
   }, {
     key: 'defaultProps',
     get: function get() {
-      return {
+      var _ref;
+
+      return _ref = {
         value: new Date(),
+        valueList: [new Date()],
+        isMultiple: false,
         // (thisReactElement)=>Unit
         onFocus: function onFocus() {},
         onBlur: function onBlur() {},
@@ -88,7 +94,7 @@ var BasePicker = function (_Component) {
         error: false,
         isAlwaysShowCloseIcon: false,
         disabledClose: false
-      };
+      }, _ref['valueList'] = [], _ref;
     }
   }]);
 
@@ -138,18 +144,42 @@ var BasePicker = function (_Component) {
 
 
   BasePicker.prototype.onPicked = function onPicked(value) {
+    var _this2 = this;
+
     var isKeepPannel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     //only change input value on picked triggered
-    var hasChanged = !valueEquals(this.state.value, value);
-    this.setState({
-      pickerVisible: isKeepPannel,
-      value: value,
-      text: this.dateToStr(value)
-    });
 
-    if (hasChanged) {
-      this.props.onChange(value);
+    // 要区分是多选还是单选,根据
+    if (this.props.isMultiple) {
+      var valueList = this.props.valueList;
+
+      var list = valueList ? valueList.slice() : [];
+      list.push(value);
+
+      var txtList = list.map(function (item) {
+        return _this2.dateToStr(item);
+      });
+
+      this.setState({
+        pickerVisible: isKeepPannel,
+        valueList: valueList,
+        text: txtList.join(',')
+      });
+
+      this.props.onChange(value, valueList);
       this.context.form && this.context.form.onFieldChange();
+    } else {
+      var hasChanged = !valueEquals(this.state.value, value);
+      this.setState({
+        pickerVisible: isKeepPannel,
+        value: value,
+        text: this.dateToStr(value)
+      });
+
+      if (hasChanged) {
+        this.props.onChange(value);
+        this.context.form && this.context.form.onFieldChange();
+      }
     }
   };
 
@@ -179,12 +209,19 @@ var BasePicker = function (_Component) {
 
   BasePicker.prototype.propsToState = function propsToState(props) {
     var state = {};
-    if (this.isDateValid(props.value)) {
-      state.text = this.dateToStr(props.value);
-      state.value = props.value;
+
+    // 分情况：多选或单选
+    if (props.isMultiple) {
+      // 多选就是一个Date的list
+      state.valueList = props.valueList;
     } else {
-      state.text = '';
-      state.value = null;
+      if (this.isDateValid(props.value)) {
+        state.text = this.dateToStr(props.value);
+        state.value = props.value;
+      } else {
+        state.text = '';
+        state.value = null;
+      }
     }
 
     // if (state.value == null) {
@@ -207,12 +244,12 @@ var BasePicker = function (_Component) {
   };
 
   BasePicker.prototype.handleFocus = function handleFocus() {
-    var _this2 = this;
+    var _this3 = this;
 
     this.isInputFocus = true;
     if (haveTriggerType(this.type) && !this.state.pickerVisible) {
       this.setState({ pickerVisible: true }, function () {
-        _this2.props.onFocus(_this2);
+        _this3.props.onFocus(_this3);
       });
     }
   };
@@ -265,6 +302,7 @@ var BasePicker = function (_Component) {
   BasePicker.prototype.handleClickOutside = function handleClickOutside(evt) {
     var _state = this.state,
         value = _state.value,
+        valueList = _state.valueList,
         pickerVisible = _state.pickerVisible;
 
     if (!this.isInputFocus && !pickerVisible) {
@@ -272,12 +310,20 @@ var BasePicker = function (_Component) {
     }
     if (this.domRoot.contains(evt.target)) return;
     if (this.pickerProxy && this.pickerProxy.contains(evt)) return;
-    if (this.isDateValid(value)) {
+
+    // 单选多选分开判断
+    if (this.props.isMultiple) {
       this.setState({ pickerVisible: false });
-      this.props.onChange(value);
+      this.props.onChange(value, valueList);
       this.context.form && this.context.form.onFieldChange();
     } else {
-      this.setState({ pickerVisible: false, text: this.dateToStr(value) });
+      if (this.isDateValid(value)) {
+        this.setState({ pickerVisible: false });
+        this.props.onChange(value);
+        this.context.form && this.context.form.onFieldChange();
+      } else {
+        this.setState({ pickerVisible: false, text: this.dateToStr(value) });
+      }
     }
   };
 
@@ -315,7 +361,7 @@ var BasePicker = function (_Component) {
   };
 
   BasePicker.prototype.render = function render() {
-    var _this3 = this;
+    var _this4 = this;
 
     var _props2 = this.props,
         isReadOnly = _props2.isReadOnly,
@@ -334,21 +380,21 @@ var BasePicker = function (_Component) {
 
 
     var createIconSlot = function createIconSlot() {
-      if (_this3.calcIsShowTrigger()) {
+      if (_this4.calcIsShowTrigger()) {
 
-        var cls = isAlwaysShowCloseIcon ? 'el-icon-close' : isShowClose && !disabledClose ? 'el-icon-close' : _this3.triggerClass();
+        var cls = isAlwaysShowCloseIcon ? 'el-icon-close' : isShowClose && !disabledClose ? 'el-icon-close' : _this4.triggerClass();
 
         return React.createElement('i', {
-          className: _this3.classNames('el-input__icon', cls),
-          onClick: _this3.handleClickIcon.bind(_this3),
+          className: _this4.classNames('el-input__icon', cls),
+          onClick: _this4.handleClickIcon.bind(_this4),
           onMouseEnter: function onMouseEnter() {
             if (isReadOnly || isDisabled) return;
             if (text) {
-              _this3.setState({ isShowClose: true });
+              _this4.setState({ isShowClose: true });
             }
           },
           onMouseLeave: function onMouseLeave() {
-            _this3.setState({ isShowClose: false });
+            _this4.setState({ isShowClose: false });
           }
         });
       } else {
@@ -359,7 +405,7 @@ var BasePicker = function (_Component) {
     var createPickerPanel = function createPickerPanel() {
       if (pickerVisible) {
         /* eslint-disable */
-        var _props3 = _this3.props,
+        var _props3 = _this4.props,
             _placeholder = _props3.placeholder,
             onFocus = _props3.onFocus,
             onBlur = _props3.onBlur,
@@ -371,14 +417,14 @@ var BasePicker = function (_Component) {
         return React.createElement(
           MountBody,
           { ref: function ref(e) {
-              return _this3.pickerProxy = e;
+              return _this4.pickerProxy = e;
             } },
-          _this3.pickerPanel(_this3.state, _extends({}, others, {
+          _this4.pickerPanel(_this4.state, _extends({}, others, {
             getPopperRefElement: function getPopperRefElement() {
-              return ReactDOM.findDOMNode(_this3.refs.inputRoot);
+              return ReactDOM.findDOMNode(_this4.refs.inputRoot);
             },
             popperMixinOption: {
-              placement: PLACEMENT_MAP[_this3.props.align] || PLACEMENT_MAP.left
+              placement: PLACEMENT_MAP[_this4.props.align] || PLACEMENT_MAP.left
             }
           }))
         );
@@ -399,7 +445,7 @@ var BasePicker = function (_Component) {
         }),
 
         ref: function ref(v) {
-          return _this3.domRoot = v;
+          return _this4.domRoot = v;
         }
       },
       React.createElement(EventRegister, {
@@ -420,14 +466,14 @@ var BasePicker = function (_Component) {
           var iptxt = value;
           var nstate = { text: iptxt };
 
-          if (iptxt.trim() === '' || !_this3.isInputValid(iptxt)) {
+          if (iptxt.trim() === '' || !_this4.isInputValid(iptxt)) {
             nstate.value = null;
           } else {
             //only set value on a valid date input
-            nstate.value = _this3.parseDate(iptxt);
+            nstate.value = _this4.parseDate(iptxt);
           }
 
-          _this3.setState(nstate);
+          _this4.setState(nstate);
         },
         ref: 'inputRoot',
         value: text,
