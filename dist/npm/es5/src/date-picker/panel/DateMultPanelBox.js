@@ -48,7 +48,7 @@ var _utils = require('../utils');
 
 var _basic = require('../basic');
 
-var _PopperBase2 = require('./PopperBase');
+var _PopperBase = require('./PopperBase');
 
 var _constants = require('../constants');
 
@@ -69,9 +69,9 @@ var PICKER_VIEWS = {
     DATE: 'date'
 };
 
-var DateMultPanel = function (_PopperBase) {
-    (0, _inherits3.default)(DateMultPanel, _PopperBase);
-    (0, _createClass3.default)(DateMultPanel, null, [{
+var DateMultPanelBox = function (_Component) {
+    (0, _inherits3.default)(DateMultPanelBox, _Component);
+    (0, _createClass3.default)(DateMultPanelBox, null, [{
         key: 'propTypes',
         get: function get() {
 
@@ -81,7 +81,7 @@ var DateMultPanel = function (_PopperBase) {
                 value: _libs.PropTypes.any,
                 valueList: _libs.PropTypes.any,
                 // (Date)=>void
-                onPick: _libs.PropTypes.func.isRequired,
+                onPick: _libs.PropTypes.func,
                 isShowTime: _libs.PropTypes.bool,
                 showWeekNumber: _libs.PropTypes.bool,
                 format: _libs.PropTypes.string,
@@ -98,16 +98,17 @@ var DateMultPanel = function (_PopperBase) {
                 disabledDate: _libs.PropTypes.func,
                 firstDayOfWeek: _libs.PropTypes.range(0, 6),
                 dir: _libs.PropTypes.string,
-                isMultiple: _libs.PropTypes.bool
+                isMultiple: _libs.PropTypes.bool,
+                onChange: _libs.PropTypes.func
 
-            }, _PopperBase2.PopperBase.propTypes);
+            });
         }
     }]);
 
-    function DateMultPanel(props) {
-        (0, _classCallCheck3.default)(this, DateMultPanel);
+    function DateMultPanelBox(props) {
+        (0, _classCallCheck3.default)(this, DateMultPanelBox);
 
-        var _this = (0, _possibleConstructorReturn3.default)(this, (DateMultPanel.__proto__ || Object.getPrototypeOf(DateMultPanel)).call(this, props));
+        var _this = (0, _possibleConstructorReturn3.default)(this, (DateMultPanelBox.__proto__ || Object.getPrototypeOf(DateMultPanelBox)).call(this, props));
 
         var currentView = PICKER_VIEWS.DATE;
         switch (props.selectionMode) {
@@ -133,7 +134,7 @@ var DateMultPanel = function (_PopperBase) {
         return _this;
     }
 
-    (0, _createClass3.default)(DateMultPanel, [{
+    (0, _createClass3.default)(DateMultPanelBox, [{
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
             var dateList = [new Date()];
@@ -256,51 +257,15 @@ var DateMultPanel = function (_PopperBase) {
             shortcut.onClick();
         }
     }, {
-        key: 'handleTimePick',
-        value: function handleTimePick(pickedDate, isKeepPanel) {
-            this.updateState(function (state) {
-                if (pickedDate) {
-                    var oldDate = state.date;
-                    oldDate.setHours(pickedDate.getHours());
-                    oldDate.setMinutes(pickedDate.getMinutes());
-                    oldDate.setSeconds(pickedDate.getSeconds());
-                }
-                state.timePickerVisible = isKeepPanel;
-            });
-        }
-    }, {
-        key: 'handleMonthPick',
-        value: function handleMonthPick(month) {
+        key: 'handleDatePick',
+        value: function handleDatePick(value) {
             var _this6 = this;
 
             this.updateState(function (state) {
-                var date = state.date;
-                var selectionMode = _this6.props.selectionMode;
-
-                var _deconstructDate5 = (0, _utils.deconstructDate)(date),
-                    year = _deconstructDate5.year;
-
-                if (selectionMode !== _utils.SELECTION_MODES.MONTH) {
-                    date.setMonth(month);
-                    state.currentView = PICKER_VIEWS.DATE;
-                } else {
-                    date.setMonth(month);
-                    date.setFullYear(year);
-                    _this6.props.onPick(new Date(year, month, 1));
-                }
-            });
-        }
-    }, {
-        key: 'handleDatePick',
-        value: function handleDatePick(value) {
-            var _this7 = this;
-
-            this.updateState(function (state) {
                 var dateList = state.dateList;
-                var _props = _this7.props,
+                var _props = _this6.props,
                     selectionMode = _props.selectionMode,
-                    isShowTime = _props.isShowTime,
-                    onPick = _props.onPick;
+                    onChange = _props.onChange;
 
                 var pdate = value.date;
                 if (selectionMode === _utils.SELECTION_MODES.DAY) {
@@ -321,42 +286,10 @@ var DateMultPanel = function (_PopperBase) {
                         dateList.splice(existIndex, 1);
                     }
 
-                    onPick(pdate, true, dateList);
-                } else if (selectionMode === _utils.SELECTION_MODES.WEEK) {
-                    onPick(pdate);
+                    // onPick(pdate, true, dateList);
+                    onChange(pdate, dateList);
                 }
             });
-        }
-    }, {
-        key: 'handleYearPick',
-        value: function handleYearPick(year) {
-            var _this8 = this;
-
-            this.updateState(function (state) {
-                var _props2 = _this8.props,
-                    onPick = _props2.onPick,
-                    selectionMode = _props2.selectionMode;
-                var date = state.date;
-
-                date.setFullYear(year);
-                if (selectionMode === _utils.SELECTION_MODES.YEAR) {
-                    onPick(new Date(year, 0));
-                } else {
-                    state.currentView = PICKER_VIEWS.MONTH;
-                }
-            });
-        }
-    }, {
-        key: 'changeToNow',
-        value: function changeToNow() {
-            var now = new Date();
-            this.props.onPick(now);
-            this.setState({ date: now });
-        }
-    }, {
-        key: 'confirm',
-        value: function confirm() {
-            this.props.onPick(null, false, this.state.dateList);
         }
     }, {
         key: 'resetView',
@@ -381,8 +314,8 @@ var DateMultPanel = function (_PopperBase) {
                 currentView = _state3.currentView,
                 date = _state3.date;
 
-            var _deconstructDate6 = (0, _utils.deconstructDate)(date),
-                year = _deconstructDate6.year;
+            var _deconstructDate5 = (0, _utils.deconstructDate)(date),
+                year = _deconstructDate5.year;
 
             var yearTranslation = _locale2.default.t('el.datepicker.year');
             if (currentView === 'year') {
@@ -400,18 +333,15 @@ var DateMultPanel = function (_PopperBase) {
 
         // end: ------ public methods
         value: function _pickerContent(d) {
-            var _props3 = this.props,
-                value = _props3.value,
-                selectionMode = _props3.selectionMode,
-                disabledDate = _props3.disabledDate,
-                showWeekNumber = _props3.showWeekNumber,
-                firstDayOfWeek = _props3.firstDayOfWeek,
-                dir = _props3.dir,
-                isMultiple = _props3.isMultiple;
-            var _state4 = this.state,
-                date = _state4.date,
-                dateList = _state4.dateList;
-            var currentView = this.state.currentView;
+            var _props2 = this.props,
+                value = _props2.value,
+                selectionMode = _props2.selectionMode,
+                disabledDate = _props2.disabledDate,
+                showWeekNumber = _props2.showWeekNumber,
+                firstDayOfWeek = _props2.firstDayOfWeek,
+                dir = _props2.dir,
+                isMultiple = _props2.isMultiple;
+            var dateList = this.state.dateList;
 
             var result = null;
 
@@ -433,20 +363,20 @@ var DateMultPanel = function (_PopperBase) {
     }, {
         key: 'render',
         value: function render() {
-            var _this9 = this;
+            var _this7 = this;
 
-            var _props4 = this.props,
-                isShowTime = _props4.isShowTime,
-                shortcuts = _props4.shortcuts,
-                dir = _props4.dir;
-            var _state5 = this.state,
-                currentView = _state5.currentView,
-                date = _state5.date,
-                pickerWidth = _state5.pickerWidth,
-                timePickerVisible = _state5.timePickerVisible;
+            var _props3 = this.props,
+                isShowTime = _props3.isShowTime,
+                shortcuts = _props3.shortcuts,
+                dir = _props3.dir;
+            var _state4 = this.state,
+                currentView = _state4.currentView,
+                date = _state4.date,
+                pickerWidth = _state4.pickerWidth,
+                timePickerVisible = _state4.timePickerVisible;
 
-            var _deconstructDate7 = (0, _utils.deconstructDate)(date),
-                month = _deconstructDate7.month;
+            var _deconstructDate6 = (0, _utils.deconstructDate)(date),
+                month = _deconstructDate6.month;
 
             var t = _locale2.default.t;
             var rightDate = this.rightDate;
@@ -459,7 +389,7 @@ var DateMultPanel = function (_PopperBase) {
                 {
                     ref: 'root',
                     dir: dir,
-                    className: this.classNames('el-picker-panel el-date-range-picker', {
+                    className: this.classNames('el-picker-panel el-date-range-picker el-date-only-panel', {
                         'has-sidebar': shortcuts,
                         'has-time': isShowTime
                     })
@@ -478,7 +408,7 @@ var DateMultPanel = function (_PopperBase) {
                                     type: 'button',
                                     className: 'el-picker-panel__shortcut',
                                     onClick: function onClick() {
-                                        return _this9.handleShortcutClick(e);
+                                        return _this7.handleShortcutClick(e);
                                     } },
                                 e.text
                             );
@@ -604,14 +534,14 @@ var DateMultPanel = function (_PopperBase) {
             return (0, _utils.nextMonth)(this.state.date);
         }
     }]);
-    return DateMultPanel;
-}(_PopperBase2.PopperBase);
+    return DateMultPanelBox;
+}(_libs.Component);
 
-var _default = DateMultPanel;
+var _default = DateMultPanelBox;
 exports.default = _default;
 
 
-DateMultPanel.defaultProps = {
+DateMultPanelBox.defaultProps = {
     isShowTime: false,
     selectionMode: _utils.SELECTION_MODES.DAY,
     dir: 'ltr',
@@ -626,9 +556,9 @@ DateMultPanel.defaultProps = {
         return;
     }
 
-    reactHotLoader.register(PICKER_VIEWS, 'PICKER_VIEWS', 'src/date-picker/panel/DateMultPanel.jsx');
-    reactHotLoader.register(DateMultPanel, 'DateMultPanel', 'src/date-picker/panel/DateMultPanel.jsx');
-    reactHotLoader.register(_default, 'default', 'src/date-picker/panel/DateMultPanel.jsx');
+    reactHotLoader.register(PICKER_VIEWS, 'PICKER_VIEWS', 'src/date-picker/panel/DateMultPanelBox.jsx');
+    reactHotLoader.register(DateMultPanelBox, 'DateMultPanelBox', 'src/date-picker/panel/DateMultPanelBox.jsx');
+    reactHotLoader.register(_default, 'default', 'src/date-picker/panel/DateMultPanelBox.jsx');
 })();
 
 ;

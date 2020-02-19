@@ -357,6 +357,12 @@ Object.defineProperty(exports, 'DateMultPicker', {
     return _datePicker.DateMultPicker;
   }
 });
+Object.defineProperty(exports, 'DateMultPickerPanel', {
+  enumerable: true,
+  get: function get() {
+    return _datePicker.DateMultPickerPanel;
+  }
+});
 
 var _carousel = require('./carousel');
 

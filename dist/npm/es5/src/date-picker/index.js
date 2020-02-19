@@ -58,6 +58,15 @@ Object.defineProperty(exports, 'DateMultPicker', {
   }
 });
 
+var _DateMultPanelBox = require('./panel/DateMultPanelBox');
+
+Object.defineProperty(exports, 'DateMultPickerPanel', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_DateMultPanelBox).default;
+  }
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
