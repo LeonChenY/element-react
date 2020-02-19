@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { PropTypes } from '../../../libs'
+import { PropTypes, Component } from '../../../libs'
 import Locale from '../../locale'
 import Input from '../../input'
 import TimePanel from './TimePanel'
@@ -19,7 +19,7 @@ const PICKER_VIEWS = {
     DATE: 'date',
 }
 
-export default class DateMultPanel extends PopperBase {
+export default class DateMultPanelBox extends Component {
 
     static get propTypes() {
 
@@ -29,7 +29,7 @@ export default class DateMultPanel extends PopperBase {
             value: PropTypes.any,
             valueList: PropTypes.any,
             // (Date)=>void
-            onPick: PropTypes.func.isRequired,
+            onPick: PropTypes.func,
             isShowTime: PropTypes.bool,
             showWeekNumber: PropTypes.bool,
             format: PropTypes.string,
@@ -46,9 +46,10 @@ export default class DateMultPanel extends PopperBase {
             disabledDate: PropTypes.func,
             firstDayOfWeek: PropTypes.range(0, 6),
             dir: PropTypes.string,
-            isMultiple: PropTypes.bool
+            isMultiple: PropTypes.bool,
+            onChange: PropTypes.func
 
-        }, PopperBase.propTypes)
+        })
     }
 
     constructor(props) {
@@ -165,40 +166,11 @@ export default class DateMultPanel extends PopperBase {
         shortcut.onClick()
     }
 
-    handleTimePick(pickedDate, isKeepPanel) {
-        this.updateState(state => {
-            if (pickedDate) {
-                let oldDate = state.date
-                oldDate.setHours(pickedDate.getHours())
-                oldDate.setMinutes(pickedDate.getMinutes())
-                oldDate.setSeconds(pickedDate.getSeconds())
-            }
-            state.timePickerVisible = isKeepPanel
-        })
-    }
-
-    handleMonthPick(month) {
-        this.updateState(state => {
-            const { date } = state
-            const { selectionMode } = this.props
-            const { year } = deconstructDate(date)
-
-            if (selectionMode !== SELECTION_MODES.MONTH) {
-                date.setMonth(month)
-                state.currentView = PICKER_VIEWS.DATE
-            } else {
-                date.setMonth(month)
-                date.setFullYear(year)
-                this.props.onPick(new Date(year, month, 1))
-            }
-        })
-    }
-
 
     handleDatePick(value) {
         this.updateState(state => {
             const { dateList } = state
-            const { selectionMode, isShowTime, onPick } = this.props
+            const { selectionMode, onChange } = this.props
             const pdate = value.date
             if (selectionMode === SELECTION_MODES.DAY) {
                 // 做去重操作,无则加上,有则去除
@@ -218,36 +190,11 @@ export default class DateMultPanel extends PopperBase {
                     dateList.splice(existIndex, 1);
                 }
 
-                onPick(pdate, true, dateList);
+                // onPick(pdate, true, dateList);
+                onChange(pdate, dateList);
 
-            } else if (selectionMode === SELECTION_MODES.WEEK) {
-                onPick(pdate)
             }
         })
-    }
-
-
-    handleYearPick(year) {
-        this.updateState(state => {
-            const { onPick, selectionMode } = this.props
-            const { date } = state
-            date.setFullYear(year)
-            if (selectionMode === SELECTION_MODES.YEAR) {
-                onPick(new Date(year, 0))
-            } else {
-                state.currentView = PICKER_VIEWS.MONTH
-            }
-        })
-    }
-
-    changeToNow() {
-        const now = new Date()
-        this.props.onPick(now)
-        this.setState({ date: now })
-    }
-
-    confirm() {
-        this.props.onPick(null, false, this.state.dateList);
     }
 
     resetView() {
@@ -339,8 +286,7 @@ export default class DateMultPanel extends PopperBase {
     // end: ------ public methods
     _pickerContent(d: any) {
         const { value, selectionMode, disabledDate, showWeekNumber, firstDayOfWeek, dir, isMultiple } = this.props
-        const { date, dateList } = this.state
-        const { currentView } = this.state
+        const { dateList } = this.state
         let result = null
 
         result = (<DateTable
@@ -373,12 +319,11 @@ export default class DateMultPanel extends PopperBase {
             <div
                 ref="root"
                 dir={dir}
-                className={this.classNames('el-picker-panel el-date-range-picker', {
+                className={this.classNames('el-picker-panel el-date-range-picker el-date-only-panel', {
                     'has-sidebar': shortcuts,
                     'has-time': isShowTime
                 })}
             >
-
                 <div className="el-picker-panel__body-wrapper">
                     {
                         Array.isArray(shortcuts) && (
@@ -433,7 +378,7 @@ export default class DateMultPanel extends PopperBase {
     }
 }
 
-DateMultPanel.defaultProps = {
+DateMultPanelBox.defaultProps = {
     isShowTime: false,
     selectionMode: SELECTION_MODES.DAY,
     dir: 'ltr',

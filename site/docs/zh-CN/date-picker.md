@@ -35,6 +35,18 @@ render() {
           disabledDate={time=>time.getTime() < Date.now() - 8.64e7}
           />
           <div>选择的日期：{JSON.stringify(this.state.valueList)}</div>
+          <button onClick={() => {this.setState({valueList: [new Date()]})}}>改变valuelist</button>
+          <div>
+            <DateMultPickerPanel
+              valueList={valueList}
+              disabledDate={time=>time.getTime() < Date.now() - 8.64e7}
+              onChange={(date, dateList)=>{
+                console.log('当前click选择的日期:', date);
+                console.log('选择列表：',dateList);
+                this.setState({valueList: dateList});
+              }}
+            />
+          </div>
       </div>
       <div className="block">
         <span className="demonstration">带快捷选项</span>
