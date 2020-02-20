@@ -172,7 +172,6 @@ var TimePanel = function (_PopperBase) {
           'div',
           { className: this.classNames('el-time-panel__content', { 'has-seconds': isShowSeconds }) },
           _react2.default.createElement(_TimeSpinner2.default, {
-            dir: dir,
             ref: 'spinner',
             onChange: this.handleChange.bind(this),
             isShowSeconds: isShowSeconds,
