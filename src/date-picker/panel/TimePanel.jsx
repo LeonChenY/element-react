@@ -26,19 +26,19 @@ export default class TimePanel extends PopperBase {
         onSelectRangeChange: TimeSpinner.propTypes.onSelectRangeChange,
         dir: PropTypes.string
       }, {
-        pickerWidth: PropTypes.number,
-        currentDate: PropTypes.instanceOf(Date),
-        /*
-        onPicked: (value, isKeepPannelOpen)=>()
+      pickerWidth: PropTypes.number,
+      currentDate: PropTypes.instanceOf(Date),
+      /*
+      onPicked: (value, isKeepPannelOpen)=>()
 
-        @param value: Date|null
-        @param isKeepPannelOpen:boolean, should parent close the pannel
-        */
-        onPicked: PropTypes.func.isRequired,
-        // cancel btn is clicked
-        //()=>()
-        onCancel: PropTypes.func.isRequired,
-      }, PopperBase.propTypes)
+      @param value: Date|null
+      @param isKeepPannelOpen:boolean, should parent close the pannel
+      */
+      onPicked: PropTypes.func.isRequired,
+      // cancel btn is clicked
+      //()=>()
+      onCancel: PropTypes.func.isRequired,
+    }, PopperBase.propTypes)
   }
 
   static get defaultProps() {
@@ -103,7 +103,6 @@ export default class TimePanel extends PopperBase {
         className="el-time-panel">
         <div className={this.classNames('el-time-panel__content', { 'has-seconds': isShowSeconds })}>
           <TimeSpinner
-            dir={dir}
             ref="spinner"
             onChange={this.handleChange.bind(this)}
             isShowSeconds={isShowSeconds}
