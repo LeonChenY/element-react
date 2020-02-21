@@ -190,7 +190,7 @@ var TimeSpinner = function (_Component) {
     return React.createElement(
       'div',
       {
-        dir: dir,
+        dir: 'ltr',
         className: this.classNames('el-time-spinner', {
           'has-seconds': isShowSeconds
         })
