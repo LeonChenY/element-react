@@ -187,8 +187,6 @@ var TimeSpinner = function (_Component) {
         dir = _props.dir;
 
 
-    console.debug('timespinner props', this.props);
-
     return React.createElement(
       'div',
       {

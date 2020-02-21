@@ -154,8 +154,6 @@ export default class TimeSpinner extends Component {
     } = this.state;
     const { isShowSeconds, dir } = this.props;
 
-    console.debug('timespinner props', this.props);
-
     return (
       <div
         dir='ltr'
