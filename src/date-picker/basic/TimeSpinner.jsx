@@ -5,7 +5,7 @@ import { debounce } from 'throttle-debounce';
 import { PropTypes, Component } from '../../../libs';
 import { getRangeHours } from '../utils';
 import { Scrollbar } from '../../scrollbar';
-import type {TimeSpinnerProps, TimeTypes } from '../Types';
+import type { TimeSpinnerProps, TimeTypes } from '../Types';
 
 function range(end) {
   let r = [];
@@ -69,7 +69,7 @@ export default class TimeSpinner extends Component {
       minutes: 0,
       seconds: 0,
       isShowSeconds: true,
-      onSelectRangeChange: ()=>{},
+      onSelectRangeChange: () => { },
       dir: 'ltr'
     };
   }
@@ -156,7 +156,7 @@ export default class TimeSpinner extends Component {
 
     return (
       <div
-        dir={dir}
+        dir='ltr'
         className={this.classNames('el-time-spinner', {
           'has-seconds': isShowSeconds
         })}
