@@ -89,6 +89,18 @@ var Tree = function (_Component) {
 		this.store.setChecked(data, checked, deep);
 	};
 
+	/**
+  * 清除选中的样式状态
+  */
+
+
+	Tree.prototype.clearCurrentStatus = function clearCurrentStatus() {
+		// this.store.setCurrentNode(null);
+		this.setState({
+			currentNode: null
+		});
+	};
+
 	// used by child nodes, use tree store to store this info?
 
 
