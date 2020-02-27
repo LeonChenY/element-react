@@ -88,6 +88,16 @@ export default class Tree extends Component {
 		this.store.setChecked(data, checked, deep);
 	}
 
+	/**
+	 * 清除选中的样式状态
+	 */
+	clearCurrentStatus(): void {
+		// this.store.setCurrentNode(null);
+		this.setState({
+			currentNode: null
+		});
+	}
+
 	// used by child nodes, use tree store to store this info?
 	getCurrentNode(): ?Object {
 		return this.state.currentNode;
@@ -126,8 +136,8 @@ export default class Tree extends Component {
 			onCheckChange,
 			onNodeClicked,
 			emptyText,
-      maxChoose,
-      dir
+			maxChoose,
+			dir
 		} = this.props;
 
 		const renderEmptyText = () => {
@@ -142,7 +152,7 @@ export default class Tree extends Component {
 
 		return (
 			<div
-        dir={dir}
+				dir={dir}
 				style={this.style()}
 				className={this.className('el-tree', {
 					'el-tree--highlight-current': highlightCurrent,
@@ -152,7 +162,7 @@ export default class Tree extends Component {
 				{this.root.childNodes.map((e, idx) => {
 					return (
 						<Node
-              dir={dir}
+							dir={dir}
 							ref="cnode"
 							key={this.getNodeKey(e, idx)}
 							nodeModel={e}
@@ -218,8 +228,8 @@ Tree.propTypes = {
 	// (nodeModel.data, nodeModel, Node)=>Unit
 	onNodeExpand: PropTypes.func,
 	onNodeCollapse: PropTypes.func,
-  maxChoose: PropTypes.number,
-  dir: PropTypes.string,
+	maxChoose: PropTypes.number,
+	dir: PropTypes.string,
 };
 
 Tree.defaultProps = {
@@ -236,6 +246,6 @@ Tree.defaultProps = {
 	onNodeClicked() { },
 	onCurrentChange() { },
 	onNodeExpand() { },
-  onNodeCollapse() { },
-  dir: 'ltr'
+	onNodeCollapse() { },
+	dir: 'ltr'
 };

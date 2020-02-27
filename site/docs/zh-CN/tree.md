@@ -53,21 +53,28 @@ constructor(props) {
       label: 'label'
     }
   }
+  this.tree = null;
 }
 
 render() {
   return (
-    <Tree
-      data={this.state.data}
-      options={this.state.options}
-      highlightCurrent={true}
-      onCheckChange={(data, checked, indeterminate)=>{
-        console.debug('onCheckChange: ', data, checked, indeterminate)}
-      }
-      onNodeClicked={(data, reactElement,)=>{
-        console.debug('onNodeClicked: ', data, reactElement)
-      }}
-    />
+    <div>
+      <Button onClick={() => {
+        this.tree.clearCurrentStatus();
+      }}>清除选中</Button>
+      <Tree
+        ref={(e) => this.tree = e }
+        data={this.state.data}
+        options={this.state.options}
+        highlightCurrent={true}
+        onCheckChange={(data, checked, indeterminate)=>{
+          console.debug('onCheckChange: ', data, checked, indeterminate)}
+        }
+        onNodeClicked={(data, reactElement,)=>{
+          console.debug('onNodeClicked: ', data, reactElement)
+        }}
+      />
+    </div>
   )
 }
 ```
